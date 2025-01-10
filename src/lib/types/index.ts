@@ -1,4 +1,4 @@
-export type product = {
+export type Product = {
 	created_at: string | null;
 	id: number;
 	img: string[];
