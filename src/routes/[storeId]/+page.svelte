@@ -1,4 +1,6 @@
 <script lang="ts">
+	import Best from '$lib/components/Best.svelte';
+	import type { product } from '$lib/types';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
@@ -20,16 +22,9 @@
 	}
 </script>
 
-
 {#if productAvaliable}
 	<!-- Best -->
-	<div class="embla">
-		<div class="embla__container">
-			<div class="embla__slide">Slide 1</div>
-			<div class="embla__slide">Slide 2</div>
-			<div class="embla__slide">Slide 3</div>
-		</div>
-	</div>
+	<Best best={best as product[]} />
 
 	<!-- Products -->
 	<section></section>
