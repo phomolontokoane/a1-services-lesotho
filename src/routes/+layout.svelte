@@ -27,7 +27,7 @@
 		property="twitter:description"
 		content="We deliver all sorts of products from famous stores to you"
 	/>
-	<meta property="twitter:image" content="/favicon.png" />
+	<meta property="twitter:image" content="https://a1-services-lesotho.vercel.app/favicon.png" />
 
 	<!-- Meta Tags Generated with https://metatags.io -->
 </svelte:head>
