@@ -8,3 +8,7 @@ export type Product = {
 	price: number;
 	qty: number;
 };
+
+export interface buyProduct extends Product {
+	avaliableQty: number;
+} // in this case qty would be the number of wanted 

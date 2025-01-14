@@ -1,42 +1,29 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import '../app.css';
+	import type { buyProduct } from '$lib/types';
+	import { cart } from '$lib/stores/cart';
+	import Metadata from '$lib/components/Metadata.svelte';
+	import Navbar from '$lib/components/Navbar/Nav.svelte';
 	let { children } = $props();
+
+	onMount(() => {
+		let strCart = localStorage.getItem("cart");
+		let myCart: buyProduct[];
+		if (!strCart) {
+			localStorage.setItem("cart", "[]")
+			myCart = []
+		} else {
+			myCart = JSON.parse(strCart) as buyProduct[]
+		}
+		
+		cart.set(myCart);
+	})
 </script>
 
-<svelte:head>
-	<!-- Primary Meta Tags -->
-	<title>A1-Services</title>
-	<meta name="title" content="A1-Services" />
-	<meta name="description" content="We deliver all sorts of products from famous stores to you" />
+<Metadata />
 
-	<!-- Open Graph / Facebook -->
-	<meta property="og:type" content="website" />
-	<meta property="og:url" content="https://a1-services-lesotho.vercel.app/" />
-	<meta property="og:title" content="A1-Services" />
-	<meta
-		property="og:description"
-		content="We deliver all sorts of products from famous stores to you"
-	/>
-	<meta property="og:image" content="https://a1-services-lesotho.vercel.app/favicon.png" />
-
-	<!-- Twitter -->
-	<meta property="twitter:card" content="summary_large_image" />
-	<meta property="twitter:url" content="https://a1-services-lesotho.vercel.app/" />
-	<meta property="twitter:title" content="A1-Services" />
-	<meta
-		property="twitter:description"
-		content="We deliver all sorts of products from famous stores to you"
-	/>
-	<meta property="twitter:image" content="https://a1-services-lesotho.vercel.app/favicon.png" />
-
-	<!-- Meta Tags Generated with https://metatags.io -->
-</svelte:head>
-
-<nav class="mx-auto flex justify-center sm:w-[600px] md:w-[700px] lg:w-[1000px] xl:w-[1200px]">
-	<a href="/" class="flex items-center gap-1 text-2xl font-bold text-primary">
-		<img src="/favicon.png" alt="logo" width="150" />
-	</a>
-</nav>
+<Navbar />
 
 <main class="mx-auto p-3 sm:w-[600px] md:w-[700px] lg:w-[1000px] xl:w-[1200px]">
 	{@render children()}

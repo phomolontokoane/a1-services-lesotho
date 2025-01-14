@@ -6,12 +6,8 @@
 
 	let { best, storeId }: { best: Product[]; storeId: string } = $props();
 
-	let currentBest = $state(best[0]);
 	let currentNum = $state(0);
-
-	$effect(() => {
-		currentBest = best[currentNum];
-	});
+	let currentBest = $derived(best[currentNum]);
 </script>
 
 <section class="rounded border-2 border-primary p-3 lg:mx-auto lg:w-3/4">
