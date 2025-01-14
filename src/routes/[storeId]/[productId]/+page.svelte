@@ -1,4 +1,7 @@
 <script lang="ts">
+	import { toast } from "svelte-sonner";
+	import { Button } from '$lib/components/ui/button';
+	import { addCart } from '$lib/stores/cart';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
@@ -6,6 +9,11 @@
 	let comments = data.comments;
 
 	let cImg = $state(img[0]);
+
+	let handleAddCart = () => {
+		addCart({ ...data.info, qty: 1, avaliableQty: qty });
+		toast.success("Item added to cart")
+	};
 </script>
 
 <section class="grid gap-3">
@@ -20,12 +28,13 @@
 		<p class="text-3xl font-semibold text-primary">R {price}</p>
 
 		{#if qty > 0}
-			<button class="flex w-full justify-center rounded bg-primary p-2 font-semibold"
-				>Add to Cart</button
+			<Button
+				class="w-full rounded font-semibold"
+				onclick={handleAddCart}>Add to Cart</Button
 			>
 		{:else}
-			<button class="flex w-full justify-center rounded bg-primary p-2 font-semibold"
-				>Out of stock</button
+			<Button class="w-full rounded font-semibold"
+				>Out of stock</Button
 			>
 		{/if}
 	</div>
@@ -40,7 +49,7 @@
 			<div class="p-3">
 				<div class="flex justify-between">
 					<p>{c.Users.firstname} {c.Users.lastname}</p>
-                    <p>{c.rating} / 5</p>
+					<p>{c.rating} / 5</p>
 				</div>
 				<p>{c.message}</p>
 			</div>

@@ -108,7 +108,7 @@ export type Database = {
           delivered: boolean | null
           id: number
           isdone: boolean | null
-          owners: string | null
+          owners: string
           price: number
           products: Json
           user_id: number
@@ -118,7 +118,7 @@ export type Database = {
           delivered?: boolean | null
           id?: never
           isdone?: boolean | null
-          owners?: string | null
+          owners: string
           price: number
           products: Json
           user_id: number
@@ -128,7 +128,7 @@ export type Database = {
           delivered?: boolean | null
           id?: never
           isdone?: boolean | null
-          owners?: string | null
+          owners?: string
           price?: number
           products?: Json
           user_id?: number

@@ -4,14 +4,16 @@
 </script>
 
 <Sheet.Root>
-	<Sheet.Trigger class="lg:hidden">
+	<Sheet.Trigger class={`lg:hidden`}>
 		<Menu />
 	</Sheet.Trigger>
 	<Sheet.Content
-		onCloseAutoFocus={(e) => { // these functions stops some weird behavoir after closing
+		side="left"
+		onCloseAutoFocus={(e) => {
+			// these functions stops some weird behavoir after closing
 			e.preventDefault();
 		}}
-        onOpenAutoFocus={(e) => {
+		onOpenAutoFocus={(e) => {
 			e.preventDefault();
 		}}
 	>
