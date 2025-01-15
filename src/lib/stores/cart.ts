@@ -3,6 +3,20 @@ import type { buyProduct } from '$lib/types';
 import { writable } from 'svelte/store';
 
 export const cart = writable<buyProduct[]>([]);
+
+if (browser) {
+	let strCart = localStorage.getItem('cart');
+	let myCart: buyProduct[];
+	if (strCart == null) {
+		localStorage.setItem('cart', '[]');
+		myCart = [];
+	} else {
+		myCart = JSON.parse(strCart) as buyProduct[];
+	}
+
+	cart.set(myCart);
+}
+
 cart.subscribe((cart) => {
 	if (browser) {
 		let str = JSON.stringify(cart);
