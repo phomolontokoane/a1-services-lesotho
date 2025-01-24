@@ -6,26 +6,57 @@ export const load: PageServerLoad = async () => {
 };
 
 export const actions: Actions = {
-	login: async ({ cookies, request }) => {
-		let formdata = await request.formData();
-		let phone_number = formdata.get('phone_number') ?? '';
-		let password = formdata.get('password') ?? '';
+	login: async (event) => {
+		const { cookies, request } = event;
 
-		console.log(phone_number, password);
-
-		let { data } = await supabase.from('User').select('*').eq('phone_number', phone_number);
-		if (data != null && data.length > 0) {
-			let user = data[0];
-			if (password == user.password) {
-				cookies.set('user_session', user.id.toString(), {
-					path: '/'
-				});
-			} else {
-				return { success: false };
-			}
+		// Get form data
+		const formdata = await request.formData();
+		// console.log("🚀 ~ login: ~ formdata:", formdata)
+		const phone_number = formdata.get('phone_number');
+		const password = formdata.get('password');
+		
+		console.debug(phone_number, password)
+		if (!phone_number || !password) {
+			return { success: false, error: 'Phone number and password are required' };
 		}
-		return {
-			success: true
-		};
+
+
+		try {
+			// Query user from database
+			const { data, error } = await supabase
+				.from('User')
+				.select('id, password')
+				.eq('phone_number', +phone_number);
+
+			if (error) {
+				console.error(error);
+				return { success: false, error: 'Database query failed' };
+			}
+
+			if (data && data.length > 0) {
+				const user = data[0];
+
+				// Compare password
+				const isPasswordValid = password == user.password;
+				console.log("🚀 ~ login: ~ isPasswordValid:", isPasswordValid)
+				if (isPasswordValid) {
+					// Set secure cookie
+					cookies.set('user_session', user.id.toString(), {
+						path: '/',
+						httpOnly: true,
+						secure: true,
+						sameSite: 'strict'
+					});
+					return { success: true };
+				} else {
+					return { success: false, error: 'Invalid credentials' };
+				}
+			}
+
+			return { success: false, error: 'User not found' };
+		} catch (err) {
+			console.error(err);
+			return { success: false, error: 'An unexpected error occurred' };
+		}
 	}
 };

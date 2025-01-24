@@ -10,7 +10,7 @@ export const handle: Handle = async ({ event, resolve }) => {
         event.locals.user = {
             id: user.id,
             name: user.first_name,
-            phone_number: user.phoneNumber.toString()
+            phone_number: user.phone_number.toString()
         }
     }
 

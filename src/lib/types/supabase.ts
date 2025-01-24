@@ -177,7 +177,7 @@ export type Database = {
           id: number
           last_name: string
           password: string
-          phoneNumber: number
+          phone_number: number
           session: string | null
         }
         Insert: {
@@ -186,7 +186,7 @@ export type Database = {
           id?: number
           last_name: string
           password: string
-          phoneNumber: number
+          phone_number: number
           session?: string | null
         }
         Update: {
@@ -195,7 +195,7 @@ export type Database = {
           id?: number
           last_name?: string
           password?: string
-          phoneNumber?: number
+          phone_number?: number
           session?: string | null
         }
         Relationships: []
