@@ -34,32 +34,6 @@ export type Database = {
   }
   public: {
     Tables: {
-      Best: {
-        Row: {
-          created_at: string | null
-          id: number
-          product: number
-        }
-        Insert: {
-          created_at?: string | null
-          id?: never
-          product: number
-        }
-        Update: {
-          created_at?: string | null
-          id?: never
-          product?: number
-        }
-        Relationships: [
-          {
-            foreignKeyName: "best_product_fkey"
-            columns: ["product"]
-            isOneToOne: false
-            referencedRelation: "Products"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       Comments: {
         Row: {
           created_at: string | null
@@ -92,13 +66,6 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "Products"
             referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "comments_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "Users"
-            referencedColumns: ["phonenumber"]
           },
         ]
       }
@@ -133,15 +100,7 @@ export type Database = {
           products?: Json
           user_id?: number
         }
-        Relationships: [
-          {
-            foreignKeyName: "orders_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "Users"
-            referencedColumns: ["phonenumber"]
-          },
-        ]
+        Relationships: []
       }
       Products: {
         Row: {
@@ -211,30 +170,33 @@ export type Database = {
         }
         Relationships: []
       }
-      Users: {
+      User: {
         Row: {
-          created_at: string | null
-          firstname: string
+          created_at: string
+          first_name: string
           id: number
-          lastname: string
+          last_name: string
           password: string
-          phonenumber: number
+          phoneNumber: number
+          session: string | null
         }
         Insert: {
-          created_at?: string | null
-          firstname: string
-          id?: never
-          lastname: string
+          created_at?: string
+          first_name: string
+          id?: number
+          last_name: string
           password: string
-          phonenumber: number
+          phoneNumber: number
+          session?: string | null
         }
         Update: {
-          created_at?: string | null
-          firstname?: string
-          id?: never
-          lastname?: string
+          created_at?: string
+          first_name?: string
+          id?: number
+          last_name?: string
           password?: string
-          phonenumber?: number
+          phoneNumber?: number
+          session?: string | null
         }
         Relationships: []
       }

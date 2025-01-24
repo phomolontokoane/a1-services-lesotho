@@ -4,9 +4,10 @@
 
 	import Metadata from '$lib/components/Metadata.svelte';
 	import Navbar from '$lib/components/Navbar/Nav.svelte';
+	import type { LayoutData } from './$types';
+	import type { Snippet } from 'svelte';
 
-	let { children } = $props();
-
+	let { data, children } : { data: LayoutData, children: Snippet } = $props();
 </script>
 
 <Toaster />
