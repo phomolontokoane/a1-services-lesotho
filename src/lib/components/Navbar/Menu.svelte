@@ -1,9 +1,12 @@
 <script lang="ts">
 	import * as Sheet from '$lib/components/ui/sheet/index.js';
 	import { Menu } from 'lucide-svelte';
+	import { Button } from '../ui/button';
+
+	let open = $state(false)
 </script>
 
-<Sheet.Root>
+<Sheet.Root {open}>
 	<Sheet.Trigger class={`lg:hidden`}>
 		<Menu />
 	</Sheet.Trigger>
@@ -18,11 +21,13 @@
 		}}
 	>
 		<Sheet.Header>
-			<Sheet.Title>Are you sure absolutely sure?</Sheet.Title>
-			<Sheet.Description>
-				This action cannot be undone. This will permanently delete your account and remove your data
-				from our servers.
-			</Sheet.Description>
+			<Sheet.Title>Navigation</Sheet.Title>
 		</Sheet.Header>
+		
+		<div class="flex flex-col gap-2">
+			<a href="/">Home</a>
+			<hr>
+			<Button href="/login" onclick={() => {open = false}}>Login</Button>
+		</div>
 	</Sheet.Content>
 </Sheet.Root>
