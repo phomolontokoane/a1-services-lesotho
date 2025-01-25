@@ -5,7 +5,4 @@
     let { data, children }: { data: LayoutData, children: Snippet } = $props();
 </script>
 
-<h1 class="text-4xl text-primary">Admin</h1>
-<hr class="text-primary mt-3 mb-3">
-
 {@render children()}
