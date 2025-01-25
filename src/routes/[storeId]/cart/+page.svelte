@@ -1,14 +1,29 @@
 <script lang="ts">
 	import { derived } from 'svelte/store';
-	import type { PageData } from './$types';
+	import type { ActionData, PageData } from './$types';
 	import { cart, clearStore } from '$lib/stores/cart';
 	import { store } from '$lib/stores/store';
 	import CartProduct from '$lib/components/CartProduct.svelte';
 	import { Button } from '$lib/components/ui/button';
+	import { goto } from '$app/navigation';
+	import { onMount } from 'svelte';
 
-	let { data }: { data: PageData } = $props();
+	interface Props {
+		data: PageData;
+		form: ActionData;
+	}
+
+	let { data, form }: Props = $props();
+
+	onMount(() => {
+		if (form?.success) {
+			clearStore($store.owners);
+		}
+	});
+
 	let storeCart = derived(cart, ($cart) => $cart.filter((c) => c.owners == $store.owners));
 	let totalPrice = $state(0);
+	let products = $state('[]');
 
 	storeCart.subscribe((store) => {
 		let sum = 0;
@@ -16,6 +31,7 @@
 			sum += c.qty * c.price;
 		});
 		totalPrice = sum;
+		products = JSON.stringify(store);
 	});
 </script>
 
@@ -39,6 +55,12 @@
 			class="grow rounded text-xl"
 			onclick={() => clearStore($store.owners)}>Clear</Button
 		>
-		<Button class="grow rounded text-xl">Order</Button>
+		<form action="?/order" method="POST" class="grow">
+			<input type="hidden" name="total_price" bind:value={totalPrice} />
+			<input type="hidden" name="products" bind:value={products} />
+			<input type="hidden" name="store" value={$store.owners} />
+			<input type="hidden" name="user" value={data.user?.id} />
+			<Button class="w-full rounded text-xl" type="submit">Order</Button>
+		</form>
 	</div>
 </div>
