@@ -67,6 +67,13 @@ export type Database = {
             referencedRelation: "Products"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "Comments_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "User"
+            referencedColumns: ["id"]
+          },
         ]
       }
       Orders: {
@@ -100,7 +107,15 @@ export type Database = {
           products?: Json
           user_id?: number
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "Orders_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "User"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       Products: {
         Row: {

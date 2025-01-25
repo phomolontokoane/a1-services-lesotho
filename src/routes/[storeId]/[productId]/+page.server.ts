@@ -17,7 +17,7 @@ export const load = (async ({ params }) => {
     message,
     rating,
     created_at,
-    Users ( firstname, lastname )
+    User ( first_name, last_name )
     `
         )
         .eq('product', +productId);

@@ -12,7 +12,7 @@
 
 	let handleAddCart = () => {
 		addCart({ ...data.info, qty: 1, avaliableQty: qty });
-		toast.success("Item added to cart")
+		toast.success("Item added to cart", {duration: 1000})
 	};
 </script>
 
@@ -48,7 +48,7 @@
 		{#each comments as c}
 			<div class="p-3">
 				<div class="flex justify-between">
-					<p>{c.Users.firstname} {c.Users.lastname}</p>
+					<p>{c.User.first_name} {c.User.last_name}</p>
 					<p>{c.rating} / 5</p>
 				</div>
 				<p>{c.message}</p>

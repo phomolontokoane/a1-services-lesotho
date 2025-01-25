@@ -7,6 +7,7 @@
 	import { Button } from '$lib/components/ui/button';
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
+	import { browser } from '$app/environment';
 
 	interface Props {
 		data: PageData;
@@ -18,6 +19,7 @@
 	onMount(() => {
 		if (form?.success) {
 			clearStore($store.owners);
+			if (browser) goto('/');
 		}
 	});
 
