@@ -27,7 +27,7 @@
 	<img class="aspect-square w-1/3 object-cover object-center" src={item.img[0]} alt="product" />
 	<select bind:value={qty} onchange={handleChange}>
 		{#each { length: item.avaliableQty }, num}
-			<option value={num}>{num}</option>
+			<option value={num + 1}>{num + 1}</option>
 		{/each}
 	</select>
 	<div>

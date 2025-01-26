@@ -109,6 +109,13 @@ export type Database = {
         }
         Relationships: [
           {
+            foreignKeyName: "Orders_owners_fkey1"
+            columns: ["owners"]
+            isOneToOne: false
+            referencedRelation: "Store"
+            referencedColumns: ["owners"]
+          },
+          {
             foreignKeyName: "Orders_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
@@ -220,7 +227,12 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      update_product_quantities: {
+        Args: {
+          products: Json
+        }
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never

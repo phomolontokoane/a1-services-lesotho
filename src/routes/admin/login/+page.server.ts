@@ -2,15 +2,15 @@ import { supabase } from '$lib';
 import { redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 
-export const load = (async ({ cookies }) => {
-	// if (cookies.get('admin_session')) {
-	// 	redirect(300, '/admin');
-	// }
+export const load = (async ({ locals }) => {
+	if (locals.admin_user) {
+		redirect(303, '/admin');
+	}
 	return {};
 }) satisfies PageServerLoad;
 
 export const actions: Actions = {
-	login_admin: async ({ request, cookies, locals }) => {
+	login_admin: async ({ request, cookies }) => {
 		// Get form data
 		const formdata = await request.formData();
 		const email = formdata.get('email') as string | null;
@@ -21,7 +21,7 @@ export const actions: Actions = {
 		}
 
 		try {
-			let { data, error } = await supabase.auth.signUp({
+			let { data, error } = await supabase.auth.signInWithPassword({
 				email,
 				password
 			});
@@ -31,16 +31,9 @@ export const actions: Actions = {
 				return { success: false, error: error.message };
 			}
 
-			const { user, session } = data;
+			const { user } = data;
 
-			if (user && session) {
-				locals.admin_user = user;
-				cookies.set('admin_session', session.access_token, {
-					path: '/',
-					httpOnly: true,
-					secure: true,
-					sameSite: 'strict'
-				});
+			if (user) {
 
 				return {
 					success: true

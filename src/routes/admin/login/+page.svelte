@@ -26,6 +26,10 @@
     <Button type="submit" class="w-full my-4">Login Admin</Button>
 </form>
 
+{#if form?.success}
+    <p>Logged In</p>
+{/if}
+
 {#if form?.error}
     <p>{form.error}</p>
 {/if}

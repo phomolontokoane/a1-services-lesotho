@@ -1,6 +1,5 @@
 import { supabase } from '$lib';
 import type { buyProduct } from '$lib/types';
-import type { Json } from '$lib/types/supabase';
 import type { Actions, PageServerLoad } from './$types';
 
 export const load = (async () => {
@@ -27,37 +26,26 @@ export const actions: Actions = {
 			return { success: false, error: 'Invalid products JSON' };
 		}
 
-		try {
-			// Insert order into the database
-			const { data, error } = await supabase
-				.from('Orders')
-				.insert([{ price, products: Products as any, owners, user_id }])
-				.select();
+		let update_products = Products.map((v) => ({ id: v.id, wanted_qty: v.qty }));
 
+		try {
+			let { error } = await supabase.rpc('update_product_quantities', {
+				products: update_products
+			});
 			if (error) {
 				console.error(error);
 				return { success: false, error: error.message };
 			}
 
-			// Update product quantities in bulk
-			for (const p of Products) {
-				try {
-					const { id, name, avaliableQty, qty } = p;
-					const new_qty = avaliableQty - qty;
-					const { data ,error: updateError } = await supabase
-						.from('Products')
-						.update({ qty: new_qty })
-						.eq('name', name)
-						.select("*")
+			// Insert order into the database
+			const { data, error: order_error } = await supabase
+				.from('Orders')
+				.insert([{ price, products: Products as any, owners, user_id }])
+				.select();
 
-					if (updateError) {
-						throw new Error(`Failed to update product ${id}`);
-					}
-					console.debug(data, id)
-				} catch (err) {
-					console.error(err);
-					return { success: false, error: `Error updating product` };
-				}
+			if (order_error) {
+				console.error(order_error);
+				return { success: false, error: order_error.message };
 			}
 
 			return { success: true, order: data };
