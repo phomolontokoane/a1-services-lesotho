@@ -32,10 +32,10 @@ export const actions: Actions = {
 			let { error } = await supabase.rpc('update_product_quantities', {
 				products: update_products
 			});
-			if (error) {
-				console.error(error);
-				return { success: false, error: error.message };
-			}
+			// if (error) {
+			// 	console.error(error);
+			// 	return { success: false, error: error.message };
+			// }
 
 			// Insert order into the database
 			const { data, error: order_error } = await supabase
