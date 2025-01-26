@@ -15,6 +15,10 @@ export const actions: Actions = {
 		const user_id = parseInt(formdata.get('user') as string, 10);
 
 		// Validate inputs
+		// console.debug("price", price)
+		// console.debug("products", products)
+		// console.debug("user_id", user_id)
+		// console.debug("owners", owners)
 		if (!price || !products || !owners || isNaN(user_id)) {
 			return { success: false, error: 'One of the fields is not filled or invalid' };
 		}
@@ -30,12 +34,12 @@ export const actions: Actions = {
 
 		try {
 			let { error } = await supabase.rpc('update_product_quantities', {
-				products: update_products
+				products: JSON.stringify(update_products)
 			});
-			// if (error) {
-			// 	console.error(error);
-			// 	return { success: false, error: error.message };
-			// }
+			if (error) {
+				console.error(error);
+				// return { success: false, error: error.message };
+			}
 
 			// Insert order into the database
 			const { data, error: order_error } = await supabase

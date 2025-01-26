@@ -16,6 +16,10 @@
 
 	let { data, form }: Props = $props();
 
+	if (form?.error) {
+		console.error(form.error)
+	}
+
 	onMount(() => {
 		if (form?.success) {
 			clearStore($store.owners);
