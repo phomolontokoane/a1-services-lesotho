@@ -1,6 +1,6 @@
 // See https://svelte.dev/docs/kit/types#app.d.ts
 
-import type { User } from "@supabase/supabase-js";
+import type { User } from '@supabase/supabase-js';
 
 // for information about these interfaces
 declare global {
@@ -12,7 +12,7 @@ declare global {
 				name: string;
 				phone_number: string;
 			};
-			admin_user?: User
+			admin_user?: User;
 		}
 		// interface PageData {}
 		// interface PageState {}

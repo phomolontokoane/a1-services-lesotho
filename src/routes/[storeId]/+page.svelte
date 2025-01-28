@@ -15,7 +15,7 @@
 
 {#if productAvaliable}
 	<!-- Best -->
-	<Best best={best as Product[]} {storeId}/>
+	<Best best={best as Product[]} {storeId} />
 
 	<!-- Products -->
 	<Products products={products as Product[]} {storeId} />

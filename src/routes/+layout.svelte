@@ -1,13 +1,13 @@
 <script lang="ts">
 	import '../app.css';
-	import { Toaster } from "$lib/components/ui/sonner/index.js";
+	import { Toaster } from '$lib/components/ui/sonner/index.js';
 
 	import Metadata from '$lib/components/Metadata.svelte';
 	import Navbar from '$lib/components/Navbar/Nav.svelte';
 	import type { LayoutData } from './$types';
 	import type { Snippet } from 'svelte';
 
-	let { data, children } : { data: LayoutData, children: Snippet } = $props();
+	let { data, children }: { data: LayoutData; children: Snippet } = $props();
 </script>
 
 <Toaster />

@@ -11,13 +11,13 @@ export type Product = {
 
 export interface buyProduct extends Product {
 	avaliableQty: number;
-} // in this case qty would be the number of wanted 
+} // in this case qty would be the number of wanted
 
 export type Store = {
-    contacts: string;
-    created_at: string;
-    id: number;
-    image: string | null;
-    name: string;
-    owners: string;
-}
+	contacts: string;
+	created_at: string;
+	id: number;
+	image: string | null;
+	name: string;
+	owners: string;
+};

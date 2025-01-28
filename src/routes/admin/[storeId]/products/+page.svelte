@@ -26,8 +26,12 @@
 				<Table.Cell class="font-medium">{product.id}</Table.Cell>
 				<Table.Cell>{product.name}</Table.Cell>
 				<Table.Cell>
-                    <img src={product.img[0]} alt="product" class="w-[100px] aspect-square object-cover object-center">
-                </Table.Cell>
+					<img
+						src={product.img[0]}
+						alt="product"
+						class="aspect-square w-[100px] object-cover object-center"
+					/>
+				</Table.Cell>
 				<Table.Cell class="text-right">{product.qty}</Table.Cell>
 				<Table.Cell class="text-right"
 					><Button href={`/admin/${storeId}/products/${product.id}`}>View</Button></Table.Cell

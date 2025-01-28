@@ -1,4 +1,4 @@
-import type { Store } from "$lib/types";
-import { writable } from "svelte/store";
+import type { Store } from '$lib/types';
+import { writable } from 'svelte/store';
 
-export let store = writable<Store>()
+export let store = writable<Store>();

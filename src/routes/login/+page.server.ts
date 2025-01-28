@@ -7,18 +7,17 @@ export const load: PageServerLoad = async () => {
 
 export const actions: Actions = {
 	login: async (event) => {
-		const { cookies, request } = event;
+		const { cookies, request, url } = event;
 
 		// Get form data
 		const formdata = await request.formData();
 		// console.log("🚀 ~ login: ~ formdata:", formdata)
 		const phone_number = formdata.get('phone_number');
 		const password = formdata.get('password');
-		
+
 		if (!phone_number || !password) {
 			return { success: false, error: 'Phone number and password are required' };
 		}
-
 
 		try {
 			// Query user from database
@@ -37,7 +36,6 @@ export const actions: Actions = {
 
 				// Compare password
 				const isPasswordValid = password == user.password;
-				console.log("🚀 ~ login: ~ isPasswordValid:", isPasswordValid)
 				if (isPasswordValid) {
 					// Set secure cookie
 					cookies.set('user_session', user.id.toString(), {
@@ -46,7 +44,8 @@ export const actions: Actions = {
 						secure: true,
 						sameSite: 'strict'
 					});
-					return { success: true };
+					let back_store = url.searchParams.get('store');
+					return { success: true, back_store };
 				} else {
 					return { success: false, error: 'Invalid credentials' };
 				}

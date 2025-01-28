@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { toast } from "svelte-sonner";
+	import { toast } from 'svelte-sonner';
 	import { Button } from '$lib/components/ui/button';
 	import { addCart } from '$lib/stores/cart';
 	import type { PageData } from './$types';
@@ -12,7 +12,7 @@
 
 	let handleAddCart = () => {
 		addCart({ ...data.info, qty: 1, avaliableQty: qty });
-		toast.success("Item added to cart", {duration: 1000})
+		toast.success('Item added to cart', { duration: 1000 });
 	};
 </script>
 
@@ -28,14 +28,9 @@
 		<p class="text-3xl font-semibold text-primary">R {price}</p>
 
 		{#if qty > 0}
-			<Button
-				class="w-full rounded font-semibold"
-				onclick={handleAddCart}>Add to Cart</Button
-			>
+			<Button class="w-full rounded font-semibold" onclick={handleAddCart}>Add to Cart</Button>
 		{:else}
-			<Button class="w-full rounded font-semibold"
-				>Out of stock</Button
-			>
+			<Button class="w-full rounded font-semibold">Out of stock</Button>
 		{/if}
 	</div>
 </section>

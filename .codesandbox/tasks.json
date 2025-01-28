@@ -1,42 +1,42 @@
 {
-  // These tasks will run in order when initializing your CodeSandbox project.
-  "setupTasks": [
-    {
-      "command": "npm install",
-      "name": "Install Dependencies"
-    }
-  ],
+	// These tasks will run in order when initializing your CodeSandbox project.
+	"setupTasks": [
+		{
+			"command": "npm install",
+			"name": "Install Dependencies"
+		}
+	],
 
-  // These tasks can be run from CodeSandbox. Running one will open a log in the app.
-  "tasks": {
-    "dev": {
-      "name": "dev",
-      "command": "npm run dev",
-      "runAtStart": true
-    },
-    "build": {
-      "name": "build",
-      "command": "npm run build"
-    },
-    "preview": {
-      "name": "preview",
-      "command": "npm run preview"
-    },
-    "check": {
-      "name": "check",
-      "command": "npm run check"
-    },
-    "check:watch": {
-      "name": "check:watch",
-      "command": "npm run check:watch"
-    },
-    "format": {
-      "name": "format",
-      "command": "npm run format"
-    },
-    "lint": {
-      "name": "lint",
-      "command": "npm run lint"
-    }
-  }
+	// These tasks can be run from CodeSandbox. Running one will open a log in the app.
+	"tasks": {
+		"dev": {
+			"name": "dev",
+			"command": "npm run dev",
+			"runAtStart": true
+		},
+		"build": {
+			"name": "build",
+			"command": "npm run build"
+		},
+		"preview": {
+			"name": "preview",
+			"command": "npm run preview"
+		},
+		"check": {
+			"name": "check",
+			"command": "npm run check"
+		},
+		"check:watch": {
+			"name": "check:watch",
+			"command": "npm run check:watch"
+		},
+		"format": {
+			"name": "format",
+			"command": "npm run format"
+		},
+		"lint": {
+			"name": "lint",
+			"command": "npm run lint"
+		}
+	}
 }

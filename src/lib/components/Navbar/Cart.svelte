@@ -17,7 +17,7 @@
 
 	let handleRemove = (id: number) => {
 		removeCartItem(id);
-		toast.success('Removed Item', {duration: 1000});
+		toast.success('Removed Item', { duration: 1000 });
 	};
 
 	let cartLink = from(store, ($store) => ($store != null ? `/${$store.owners}/cart` : '/'));

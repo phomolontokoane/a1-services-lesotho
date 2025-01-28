@@ -50,6 +50,7 @@
 		"@supabase/supabase-js": "^2.47.12",
 		"@tailwindcss/forms": "^0.5.9",
 		"@tailwindcss/typography": "^0.5.15",
-		"bcrypt": "^5.1.1"
+		"bcrypt": "^5.1.1",
+		"postgres": "^3.4.5"
 	}
 }

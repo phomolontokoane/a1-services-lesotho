@@ -34,9 +34,10 @@ export const actions: Actions = {
 			const { user } = data;
 
 			if (user) {
-
 				return {
-					success: true
+					success: true,
+					owner: user.id,
+					is_super: (user.user_metadata.is_super_admin ?? false) as boolean
 				};
 			}
 		} catch (error) {

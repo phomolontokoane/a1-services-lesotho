@@ -24,8 +24,9 @@
 		</div>
 	</div>
 
-	<a class="mx-3 flex justify-center rounded bg-primary py-1 text-2xl font-semibold" href={`/${storeId}/${currentBest.id}`}
-		>View</a
+	<a
+		class="mx-3 flex justify-center rounded bg-primary py-1 text-2xl font-semibold"
+		href={`/${storeId}/${currentBest.id}`}>View</a
 	>
 
 	<!-- Nav -->

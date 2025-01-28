@@ -11,15 +11,15 @@
 	let { item }: Props = $props();
 	let qty = $state(item.qty);
 
-    let handleChange = () => {
-        cart.update((c) => {
+	let handleChange = () => {
+		cart.update((c) => {
 			let index = c.findIndex((i) => i.id == item.id);
 			if (index != undefined) {
 				c[index].qty = qty;
 			}
 			return c;
 		});
-    }
+	};
 </script>
 
 <div class="flex items-center justify-between gap-3">

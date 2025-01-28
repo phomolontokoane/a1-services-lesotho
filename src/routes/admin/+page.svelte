@@ -12,7 +12,7 @@
 				<button class="rounded bg-accent p-1">Visit Store</button>
 			</a>
 		</div>
-    {:else}
-        <h2>No stores available</h2>
+	{:else}
+		<h2>No stores available</h2>
 	{/each}
 </section>

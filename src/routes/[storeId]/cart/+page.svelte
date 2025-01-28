@@ -5,9 +5,6 @@
 	import { store } from '$lib/stores/store';
 	import CartProduct from '$lib/components/CartProduct.svelte';
 	import { Button } from '$lib/components/ui/button';
-	import { goto } from '$app/navigation';
-	import { onMount } from 'svelte';
-	import { browser } from '$app/environment';
 
 	interface Props {
 		data: PageData;
@@ -15,21 +12,21 @@
 	}
 
 	let { data, form }: Props = $props();
+	let { user } = data;
 
 	if (form?.error) {
-		console.error(form.error)
+		console.error(form.error);
 	}
 
-	onMount(() => {
-		if (form?.success) {
-			clearStore($store.owners);
-			if (browser) goto('/');
-		}
-	});
+	if (form?.success) {
+		clearStore($store.owners);
+	}
 
 	let storeCart = derived(cart, ($cart) => $cart.filter((c) => c.owners == $store.owners));
 	let totalPrice = $state(0);
 	let products = $state('[]');
+
+	let back_cart = new URLSearchParams({ store: $store.owners }).toString();
 
 	storeCart.subscribe((store) => {
 		let sum = 0;
@@ -43,30 +40,42 @@
 
 <h1 class="mb-7 text-3xl font-semibold">Cart</h1>
 
-<div class="grid grid-cols-1 gap-3">
-	{#each $storeCart as c}
-		<CartProduct item={c} />
-	{:else}
-		<h2>No Items</h2>
-	{/each}
-</div>
-
-<hr class="my-6" />
-
-<div class="space-y-3">
-	<p class="text-xl font-semibold">Total Price: R {totalPrice}</p>
-	<div class="flex gap-3">
-		<Button
-			variant="destructive"
-			class="grow rounded text-xl"
-			onclick={() => clearStore($store.owners)}>Clear</Button
-		>
-		<form action="?/order" method="POST" class="grow">
-			<input type="hidden" name="total_price" bind:value={totalPrice} />
-			<input type="hidden" name="products" bind:value={products} />
-			<input type="hidden" name="store" value={$store.owners} />
-			<input type="hidden" name="user" value={data.user?.id} />
-			<Button class="w-full rounded text-xl" type="submit">Order</Button>
-		</form>
+{#if form?.success}
+	<div class="space-y-3">
+		<h2 class="text-center text-3xl">Order Has been made</h2>
+		<p>Please come collect in around 20mins</p>
+		<Button href="/" class="w-full rounded text-xl">Continue Shopping</Button>
 	</div>
-</div>
+{:else}
+	<div class="grid grid-cols-1 gap-3">
+		{#each $storeCart as c}
+			<CartProduct item={c} />
+		{:else}
+			<h2>No Items</h2>
+		{/each}
+	</div>
+
+	<hr class="my-6" />
+
+	<div class="space-y-3">
+		<p class="text-xl font-semibold">Total Price: R {totalPrice}</p>
+		<div class="flex gap-3">
+			<Button
+				variant="destructive"
+				class="grow rounded text-xl"
+				onclick={() => clearStore($store.owners)}>Clear</Button
+			>
+			{#if user}
+				<form action="?/order" method="POST" class="grow">
+					<input type="hidden" name="total_price" bind:value={totalPrice} />
+					<input type="hidden" name="products" bind:value={products} />
+					<input type="hidden" name="store" value={$store.owners} />
+					<input type="hidden" name="user" value={user.id} />
+					<Button class="w-full rounded text-xl" type="submit">Order</Button>
+				</form>
+			{:else}
+				<Button href={`/login?${back_cart}`} class="grow rounded text-xl">Login</Button>
+			{/if}
+		</div>
+	</div>
+{/if}

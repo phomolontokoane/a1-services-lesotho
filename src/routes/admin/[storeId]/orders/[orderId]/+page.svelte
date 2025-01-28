@@ -8,12 +8,12 @@
 	import { goto } from '$app/navigation';
 
 	let { data }: { data: PageData } = $props();
-    
+
 	let { order } = data;
 	let products = order.products as unknown as buyProduct[];
 	let user = order.User;
 
-    let loading = $state(false)
+	let loading = $state(false);
 
 	const handleIsDone = async () => {
 		const { error } = await supabase
@@ -21,12 +21,12 @@
 			.update({ isdone: true })
 			.eq('id', order.id)
 			.select();
-        if (!error) {
-            toast.success("Set order to ")
-            goto(`/admin/${data.storeId}/orders`)
-        } else {
-            toast.error("Operation failed")
-        }
+		if (!error) {
+			toast.success('Set order to ');
+			goto(`/admin/${data.storeId}/orders`);
+		} else {
+			toast.error('Operation failed');
+		}
 	};
 	const handleIsDelivered = async () => {
 		const { error } = await supabase
@@ -34,12 +34,12 @@
 			.update({ delivered: true })
 			.eq('id', order.id)
 			.select();
-        if (!error) {
-            toast.success("Set order to ")
-            goto(`/admin/${data.storeId}/orders`)
-        } else {
-            toast.error("Operation failed")
-        }
+		if (!error) {
+			toast.success('Set order to ');
+			goto(`/admin/${data.storeId}/orders`);
+		} else {
+			toast.error('Operation failed');
+		}
 	};
 </script>
 
@@ -82,9 +82,11 @@
 
 	<div>
 		{#if !order.isdone}
-			<Button onclick={handleIsDone} class="w-full my-6" disabled={loading}>Order Done</Button>
+			<Button onclick={handleIsDone} class="my-6 w-full" disabled={loading}>Order Done</Button>
 		{:else if !order.delivered}
-			<Button onclick={handleIsDelivered} class="w-full my-6" disabled={loading}>Order delivered</Button>
+			<Button onclick={handleIsDelivered} class="my-6 w-full" disabled={loading}
+				>Order delivered</Button
+			>
 		{:else}
 			<div></div>
 		{/if}

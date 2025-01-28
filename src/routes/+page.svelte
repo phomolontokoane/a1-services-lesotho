@@ -2,7 +2,6 @@
 	import type { PageData } from './$types';
 	let { data }: { data: PageData } = $props();
 	let stores = data.stores;
-
 </script>
 
 <section>
@@ -12,8 +11,8 @@
 		{#each stores as store}
 			<div class="w-1/2 rounded border p-3">
 				<a href={`/${store.owners}`} class="space-y-3">
-					<h3 class="font-semibold text-xl">{store.name}</h3>
-					<button class="p-1 bg-accent rounded">Visit Store</button>
+					<h3 class="text-xl font-semibold">{store.name}</h3>
+					<button class="rounded bg-accent p-1">Visit Store</button>
 				</a>
 			</div>
 		{/each}

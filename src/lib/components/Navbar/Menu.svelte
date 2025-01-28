@@ -3,7 +3,7 @@
 	import { Menu } from 'lucide-svelte';
 	import { Button } from '../ui/button';
 
-	let open = $state(false)
+	let open = $state(false);
 </script>
 
 <Sheet.Root {open}>
@@ -23,11 +23,16 @@
 		<Sheet.Header>
 			<Sheet.Title>Navigation</Sheet.Title>
 		</Sheet.Header>
-		
+
 		<div class="flex flex-col gap-2">
 			<a href="/">Home</a>
-			<hr>
-			<Button href="/login" onclick={() => {open = false}}>Login</Button>
+			<hr />
+			<Button
+				href="/login"
+				onclick={() => {
+					open = false;
+				}}>Login</Button
+			>
 		</div>
 	</Sheet.Content>
 </Sheet.Root>
