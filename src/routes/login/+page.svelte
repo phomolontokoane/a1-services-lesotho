@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { page } from '$app/state';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import { Input } from '$lib/components/ui/input/index.js';
 	import { Label } from '$lib/components/ui/label/index.js';
@@ -12,8 +13,8 @@
 	let { form }: Props = $props();
 
 	let log_page = $state('/');
-	if (form?.back_store) {
-		log_page = `/${form.back_store}/cart`;
+	if (form?.store) {
+		log_page = `/${form.store}/cart`;
 	}
 </script>
 
@@ -21,7 +22,7 @@
 	<section class="space-y-3">
 		<h1 class="text-center text-3xl font-semibold">You are logged in</h1>
 		<Button href={log_page} class="mx-auto"
-			>{log_page == '/' ? 'Go to Home page' : 'Continue Shopping'}</Button
+			>{form?.store ? 'Continue Shopping' : 'Go to Home page'}</Button
 		>
 	</section>
 {:else}
@@ -30,6 +31,7 @@
 		<Input id="phone_number" name="phone_number" />
 		<Label for="password">Password</Label>
 		<Input id="password" name="password" type="password" />
+		<input type="hidden" name="store" value={page.url.searchParams.get('store')} />
 
 		<Button class="mt-6 w-full" type="submit">Login</Button>
 	</form>

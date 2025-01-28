@@ -11,9 +11,11 @@ export const actions: Actions = {
 
 		// Get form data
 		const formdata = await request.formData();
-		// console.log("🚀 ~ login: ~ formdata:", formdata)
+		// console.debug('🚀 ~ login: ~ formdata:', formdata);
 		const phone_number = formdata.get('phone_number');
 		const password = formdata.get('password');
+		const store = formdata.get('store');
+		console.log('🚀 ~ login: ~ store:', store);
 
 		if (!phone_number || !password) {
 			return { success: false, error: 'Phone number and password are required' };
@@ -44,8 +46,7 @@ export const actions: Actions = {
 						secure: true,
 						sameSite: 'strict'
 					});
-					let back_store = url.searchParams.get('store');
-					return { success: true, back_store };
+					return { success: true, store };
 				} else {
 					return { success: false, error: 'Invalid credentials' };
 				}

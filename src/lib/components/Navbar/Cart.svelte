@@ -69,7 +69,9 @@
 	</Dialog.Root>
 {:else}
 	<Drawer.Root bind:open>
-		<Drawer.Trigger class={`${page.url.pathname == '/' ? 'hidden' : ''}`}>
+		<Drawer.Trigger
+			class={`${page.url.pathname == '/' || page.url.pathname.includes('admin') ? 'hidden' : ''}`}
+		>
 			<ShoppingCart size={24} />
 		</Drawer.Trigger>
 		<Drawer.Content>

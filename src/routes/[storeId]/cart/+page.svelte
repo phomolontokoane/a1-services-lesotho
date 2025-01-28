@@ -46,6 +46,8 @@
 		<p>Please come collect in around 20mins</p>
 		<Button href="/" class="w-full rounded text-xl">Continue Shopping</Button>
 	</div>
+{:else if $storeCart.length < 1}
+	<h2>No Items</h2>
 {:else}
 	<div class="grid grid-cols-1 gap-3">
 		{#each $storeCart as c}
