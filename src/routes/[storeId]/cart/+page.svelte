@@ -43,7 +43,9 @@
 {#if form?.success}
 	<div class="space-y-3">
 		<h2 class="text-center text-3xl">Order Has been made</h2>
-		<p>Please come collect in around 20mins</p>
+		<p>
+			Please wait for your order to be prepared - you will be notified to collect it within 20mins.
+		</p>
 		<Button href="/" class="w-full rounded text-xl">Continue Shopping</Button>
 	</div>
 {:else if $storeCart.length < 1}
