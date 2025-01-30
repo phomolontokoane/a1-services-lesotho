@@ -17,7 +17,7 @@
 			<img src="/favicon.png" alt="logo" width="100" />
 		</a>
 		{#if $store.id != -1}
-			<a href={$store.owners}>{$store.name}</a>
+			<a href={`/${$store.owners}`}>{$store.name}</a>
 		{/if}
 	</div>
 	<Cart />

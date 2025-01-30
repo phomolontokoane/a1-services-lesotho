@@ -21,9 +21,11 @@
 <h1>Login Page</h1>
 
 {#if form?.success}
-	<section class="space-y-3">
-		<h1 class="text-5xl font-semibold">Logged In</h1>
-		<Button href={loggin_url}>{form.is_super ? 'Go to Stores' : 'View your Store'}</Button>
+	<section class="space-y-6">
+		<h1 class="text-center text-5xl font-semibold">Logged In</h1>
+		<Button href={loggin_url} class="mx-auto w-full rounded text-xl"
+			>{form.is_super ? 'Go to Stores' : 'View your Store'}</Button
+		>
 	</section>
 {:else}
 	<form method="POST" action="?/login_admin">
