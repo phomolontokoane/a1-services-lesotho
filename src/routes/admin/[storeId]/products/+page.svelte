@@ -7,7 +7,12 @@
 	let { products, storeId } = data;
 </script>
 
-<h1>Products</h1>
+<div class="flex justify-between">
+	<h1 class="text-xl font-semibold">Products</h1>
+	<Button class="rounded text-lg" href={`/admin/${storeId}/products/new`}>New Product</Button>
+</div>
+
+<hr class="my-4" />
 
 <Table.Root>
 	<!-- <Table.Caption>Current Orders</Table.Caption> -->
@@ -34,7 +39,8 @@
 				</Table.Cell>
 				<Table.Cell class="text-right">{product.qty}</Table.Cell>
 				<Table.Cell class="text-right"
-					><Button href={`/admin/${storeId}/products/${product.id}`}>View</Button></Table.Cell
+					><Button class="rounded" href={`/admin/${storeId}/products/${product.id}`}>View</Button
+					></Table.Cell
 				>
 			</Table.Row>
 		{/each}
