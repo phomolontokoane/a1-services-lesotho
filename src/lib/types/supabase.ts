@@ -227,6 +227,13 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      add_stock_to_product: {
+        Args: {
+          product_id: number
+          quantity: number
+        }
+        Returns: undefined
+      }
       update_product_quantities: {
         Args: {
           products: Json
