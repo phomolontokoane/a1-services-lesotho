@@ -3,10 +3,12 @@ import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 
 export const GET: RequestHandler = async () => {
-	let { data, error } = await supabase.rpc('update_product_qty', {
-		new_qty: 3,
-		product_id: 2
+	let { data, error } = await supabase.rpc('update_product_quantities', {
+		products: [{ id: 3, wanted_qty: 3 }]
 	});
+	if (error) console.error(error);
+	else console.log(data);
+
 	if (error) console.error(error);
 	else console.log(data);
 

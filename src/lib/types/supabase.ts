@@ -227,10 +227,9 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      update_product_qty: {
+      update_product_quantities: {
         Args: {
-          product_id: number
-          new_qty: number
+          products: Json
         }
         Returns: undefined
       }

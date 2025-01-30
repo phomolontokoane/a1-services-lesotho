@@ -34,11 +34,11 @@ export const actions: Actions = {
 
 		try {
 			let { error } = await supabase.rpc('update_product_quantities', {
-				products: JSON.stringify(update_products)
+				products: update_products
 			});
 			if (error) {
 				console.error(error);
-				// return { success: false, error: error.message };
+				return { success: false, error: error.message };
 			}
 
 			// Insert order into the database

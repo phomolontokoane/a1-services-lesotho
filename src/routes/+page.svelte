@@ -1,7 +1,10 @@
 <script lang="ts">
+	import { initialStore, store as Store } from '$lib/stores/store';
 	import type { PageData } from './$types';
 	let { data }: { data: PageData } = $props();
 	let stores = data.stores;
+
+	Store.set(initialStore);
 </script>
 
 <section>
