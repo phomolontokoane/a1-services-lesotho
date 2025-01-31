@@ -6,6 +6,6 @@
 </script>
 
 <section class="grid grid-cols-2 gap-3">
-	<Button href={`/admin/${data.storeId}/orders`}>Orders</Button>
-	<Button href={`/admin/${data.storeId}/products`}>Products</Button>
+	<Button href={`/admin/shop/${data.storeId}/orders`}>Orders</Button>
+	<Button href={`/admin/shop/${data.storeId}/products`}>Products</Button>
 </section>

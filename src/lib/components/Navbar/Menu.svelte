@@ -2,12 +2,13 @@
 	import * as Sheet from '$lib/components/ui/sheet/index.js';
 	import { Menu } from 'lucide-svelte';
 	import { Button } from '../ui/button';
+	import { page } from '$app/state';
 
 	let open = $state(false);
 </script>
 
 <Sheet.Root {open}>
-	<Sheet.Trigger class={`lg:hidden`}>
+	<Sheet.Trigger class={`lg:hidden ${page.url.pathname.includes('store') ? '' : 'hidden'}`}>
 		<Menu />
 	</Sheet.Trigger>
 	<Sheet.Content

@@ -10,7 +10,7 @@ export const load = (async ({ locals, url }) => {
 		!admin_user.user_metadata.is_super_admin &&
 		!url.pathname.includes(admin_user.id)
 	) {
-		redirect(307, `/admin/${admin_user.id}`);
+		redirect(307, `/admin/shop/${admin_user.id}`);
 	}
 
 	return { admin_user };

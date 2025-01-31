@@ -9,7 +9,7 @@
 
 <div class="flex justify-between">
 	<h1 class="text-xl font-semibold">Products</h1>
-	<Button class="rounded text-lg" href={`/admin/${storeId}/products/new`}>New Product</Button>
+	<Button class="rounded text-lg" href={`/admin/shop/${storeId}/products/new`}>New Product</Button>
 </div>
 
 <hr class="my-4" />
@@ -39,7 +39,8 @@
 				</Table.Cell>
 				<Table.Cell class="text-right">{product.qty}</Table.Cell>
 				<Table.Cell class="text-right"
-					><Button class="rounded" href={`/admin/${storeId}/products/${product.id}`}>View</Button
+					><Button class="rounded" href={`/admin/shop/${storeId}/products/${product.id}`}
+						>View</Button
 					></Table.Cell
 				>
 			</Table.Row>

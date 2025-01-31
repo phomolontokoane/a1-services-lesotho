@@ -26,7 +26,7 @@
 				<Table.Cell>{order.delivered}</Table.Cell>
 				<Table.Cell class="text-right">{order.price}</Table.Cell>
 				<Table.Cell class="text-right"
-					><Button href={`/admin/${storeId}/orders/${order.id}`}>View</Button></Table.Cell
+					><Button href={`/admin/shop/${storeId}/orders/${order.id}`}>View</Button></Table.Cell
 				>
 			</Table.Row>
 		{/each}

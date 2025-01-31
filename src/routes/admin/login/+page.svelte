@@ -14,7 +14,7 @@
 	if (form?.is_super) {
 		loggin_url = '/admin';
 	} else if (form?.owner) {
-		loggin_url = `/admin/${form.owner}`;
+		loggin_url = `/admin/shop/${form.owner}`;
 	}
 </script>
 

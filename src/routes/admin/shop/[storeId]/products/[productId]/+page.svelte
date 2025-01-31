@@ -57,7 +57,7 @@
 {#if deleted}
 	<section class="space-y-3">
 		<h1 class="text-3xl">Order Deleted</h1>
-		<a href={`/admin/${data.storeId}/products`}>Go to other Products </a>
+		<a href={`/admin/shop/${data.storeId}/products`}>Go to other Products </a>
 	</section>
 {:else if loading}
 	<h1>Loading ...</h1>

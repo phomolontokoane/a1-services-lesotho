@@ -23,7 +23,7 @@
 			.select();
 		if (!error) {
 			toast.success('Set order to ');
-			goto(`/admin/${data.storeId}/orders`);
+			goto(`/admin/shop/${data.storeId}/orders`);
 		} else {
 			toast.error('Operation failed');
 		}
@@ -36,7 +36,7 @@
 			.select();
 		if (!error) {
 			toast.success('Set order to ');
-			goto(`/admin/${data.storeId}/orders`);
+			goto(`/admin/shop/${data.storeId}/orders`);
 		} else {
 			toast.error('Operation failed');
 		}

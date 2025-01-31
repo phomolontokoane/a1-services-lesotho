@@ -80,7 +80,9 @@
 {:else if form?.success}
 	<section>
 		<h1 class="text-center text-3xl font-semibold">Product has been Created</h1>
-		<Button href={`/admin/${data.storeId}/products`} class="w-full rounded">Go to Products</Button>
+		<Button href={`/admin/shop/${data.storeId}/products`} class="w-full rounded"
+			>Go to Products</Button
+		>
 	</section>
 {:else}
 	<form method="POST" action="?/addProduct" class="space-y-3">
