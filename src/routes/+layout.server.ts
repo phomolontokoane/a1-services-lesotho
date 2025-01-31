@@ -1,5 +1,6 @@
 import { supabase } from '$lib';
 import type { LayoutServerLoad } from './$types';
+import { user as User } from '$lib/stores/user';
 
 export const load = (async ({ locals, cookies }) => {
 	let user = locals.user;
@@ -17,5 +18,7 @@ export const load = (async ({ locals, cookies }) => {
 			}
 		}
 	}
+
+	if (user) User.set(user);
 	return { user };
 }) satisfies LayoutServerLoad;
