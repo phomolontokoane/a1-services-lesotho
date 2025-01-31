@@ -20,12 +20,12 @@
 		toast.success('Removed Item', { duration: 1000 });
 	};
 
-	let cartLink = from(store, ($store) => ($store != null ? `/${$store.owners}/cart` : '/'));
+	let cartLink = from(store, ($store) => ($store != null ? `/store/${$store.owners}/cart` : '/'));
 </script>
 
 {#if isDesktop}
 	<Dialog.Root bind:open>
-		<Dialog.Trigger class={`${page.url.pathname == '/' ? 'hidden' : ''}`}>
+		<Dialog.Trigger class={`${page.url.pathname.includes('store') ? '' : 'hidden'}`}>
 			<ShoppingCart size={24} />
 		</Dialog.Trigger>
 		<Dialog.Content>
@@ -69,9 +69,7 @@
 	</Dialog.Root>
 {:else}
 	<Drawer.Root bind:open>
-		<Drawer.Trigger
-			class={`${page.url.pathname == '/' || page.url.pathname.includes('admin') ? 'hidden' : ''}`}
-		>
+		<Drawer.Trigger class={`${page.url.pathname.includes('store') ? '' : 'hidden'}`}>
 			<ShoppingCart size={24} />
 		</Drawer.Trigger>
 		<Drawer.Content>

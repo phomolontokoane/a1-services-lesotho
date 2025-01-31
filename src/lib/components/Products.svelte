@@ -6,7 +6,7 @@
 
 <section class="my-5 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
 	{#each products as p}
-		<a href={`/${storeId}/${p.id}`}>
+		<a href={`/store/${storeId}/${p.id}`}>
 			<div>
 				<img
 					class="aspect-square w-full rounded object-cover object-center"

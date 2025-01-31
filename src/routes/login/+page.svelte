@@ -14,7 +14,7 @@
 
 	let log_page = $state('/');
 	if (form?.store) {
-		log_page = `/${form.store}/cart`;
+		log_page = `/store/${form.store}/cart`;
 	}
 </script>
 

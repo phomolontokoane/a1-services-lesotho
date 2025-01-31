@@ -15,7 +15,6 @@ export const actions: Actions = {
 		const phone_number = formdata.get('phone_number');
 		const password = formdata.get('password');
 		const store = formdata.get('store');
-		console.log('🚀 ~ login: ~ store:', store);
 
 		if (!phone_number || !password) {
 			return { success: false, error: 'Phone number and password are required' };
