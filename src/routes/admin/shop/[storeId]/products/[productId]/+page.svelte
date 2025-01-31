@@ -6,16 +6,26 @@
 	import { Label } from '$lib/components/ui/label/index';
 	import { toast } from 'svelte-sonner';
 	import type { PageData } from './$types';
+	import { Checkbox } from '$lib/components/ui/checkbox';
+	import { ChevronLeft } from 'lucide-svelte';
 
 	let { data }: { data: PageData } = $props();
 	let { product } = data;
 
 	let loading = $state(false);
 
+	let updated = $state(false);
+	let editMode = $state(false);
+	let name = $state(product.name);
+	let price = $state(product.price);
+	let isfeatured = $state(product.isfeatured ?? false);
+	// let qty = $state(product.qty);
+	let openEdit = $state(false);
+
 	let deleted = $state(false);
 	let openDelete = $state(false);
 
-	let qty = $state(product.qty);
+	let setQty = $state(product.qty);
 	let newQty = $state(1);
 	let openAdd = $state(false);
 
@@ -23,7 +33,7 @@
 		.channel('custom-update-channel')
 		.on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'Products' }, (payload) => {
 			if ((payload.new.id = product.id)) {
-				qty = payload.new.qty;
+				setQty = payload.new.qty;
 			}
 		})
 		.subscribe();
@@ -33,6 +43,24 @@
 		let { error } = await supabase.from('Products').delete().eq('id', product.id);
 		if (!error) {
 			deleted = true;
+		} else {
+			console.error(error);
+			toast.error('Something wrong happend');
+		}
+
+		loading = false;
+	};
+	let editProduct = async () => {
+		loading = true;
+		let { error } = await supabase
+			.from('Products')
+			.update({ name, price, isfeatured })
+			.eq('id', product.id);
+		if (!error) {
+			updated = true;
+		} else {
+			console.error(error);
+			toast.error('Something wrong happend');
 		}
 
 		loading = false;
@@ -55,14 +83,61 @@
 </script>
 
 {#if deleted}
-	<section class="space-y-3">
-		<h1 class="text-3xl">Order Deleted</h1>
-		<a href={`/admin/shop/${data.storeId}/products`}>Go to other Products </a>
+	<section class="space-y-6">
+		<h1 class="text-center text-3xl">Product Deleted</h1>
+		<Button class="w-full rounded" href={`/admin/shop/${data.storeId}/products`}
+			>Go to other Products
+		</Button>
 	</section>
+{:else if updated}
+	<section class="space-y-6">
+		<h1 class="text-center text-3xl">Product Updated</h1>
+		<Button class="w-full rounded" href={`/admin/shop/${data.storeId}/products`}
+			>Go to other Products
+		</Button>
+	</section>
+{:else if editMode}
+	<section class="space-y-3">
+		<Button
+			class="rounded"
+			variant="outline"
+			onclick={() => {
+				editMode = false;
+			}}
+		>
+			<ChevronLeft />
+			Exit
+		</Button>
+		<div>
+			<Label for="name">Name</Label>
+			<Input id="name" bind:value={name} />
+		</div>
+		<!-- <div>
+			<Label>Quanity</Label>
+			<Input bind:value={qty} type="number"/>
+		</div> -->
+		<div>
+			<Label for="price_e">Price (R)</Label>
+			<Input id="price_e" bind:value={price} type="number" />
+		</div>
+		<div class="flex items-center gap-2">
+			<Checkbox id="isfeatured" bind:checked={isfeatured} />
+			<Label for="isfeatured">Is Featured</Label>
+		</div>
+
+		<Button
+			class="w-full"
+			onclick={() => {
+				openEdit = true;
+			}}>Update</Button
+		>
+	</section>
+
+	<MyAlertDialog bind:open={openEdit} title={`Edit Product #${product.id}`} action={editProduct} />
 {:else if loading}
 	<h1>Loading ...</h1>
 {:else}
-	<section class=" space-y-3">
+	<section class="space-y-3">
 		<h1 class="text-3xl">Product #{product.id} - {product.name}</h1>
 		<img
 			src={product.img[0]}
@@ -72,7 +147,7 @@
 		<div class="space-y-2 p-3 text-xl font-medium">
 			<p>Price : R {product.price}</p>
 			<div class="flex justify-between">
-				<p>Quanitity : {qty}</p>
+				<p>Quanitity : {setQty}</p>
 				<Button
 					class="rounded"
 					onclick={() => {
@@ -91,7 +166,12 @@
 					openDelete = true;
 				}}>Delete Product</Button
 			>
-			<Button class="w-1/2 rounded">Edit Product</Button>
+			<Button
+				class="w-1/2 rounded"
+				onclick={() => {
+					editMode = true;
+				}}>Edit Product</Button
+			>
 		</div>
 	</section>
 
