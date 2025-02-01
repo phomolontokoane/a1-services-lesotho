@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { Button } from '$lib/components/ui/button';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
@@ -16,3 +17,6 @@
 		<h2>No stores available</h2>
 	{/each}
 </section>
+
+<hr class="my-4" />
+<Button href="/admin/users" class="w-full" variant="secondary">Users</Button>

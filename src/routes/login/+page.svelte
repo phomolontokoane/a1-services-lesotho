@@ -21,7 +21,7 @@
 {#if form?.success}
 	<section class="space-y-3">
 		<h1 class="text-center text-3xl font-semibold">You are logged in</h1>
-		<Button href={log_page} class="mx-auto"
+		<Button href={log_page} class="mx-auto w-full"
 			>{form?.store ? 'Continue Shopping' : 'Go to Home page'}</Button
 		>
 	</section>

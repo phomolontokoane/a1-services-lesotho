@@ -13,5 +13,7 @@ export const load = (async ({ locals, url }) => {
 		redirect(307, `/admin/shop/${admin_user.id}`);
 	}
 
-	return { admin_user };
+	const is_super_admin: boolean = admin_user?.user_metadata.is_super_admin ?? false;
+
+	return { admin_user, is_super_admin };
 }) satisfies LayoutServerLoad;

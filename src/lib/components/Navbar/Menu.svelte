@@ -36,14 +36,14 @@
 				}}>Home</a
 			>
 			<hr class="my-2" />
-			<a
+			<!-- <a
 				href="/account"
 				onclick={() => {
 					open = false;
 				}}>Account</a
-			>
-			<hr class="my-2" />
-			{#if $user}
+			> -->
+			<!-- <hr class="my-2" />
+			 {#if $user}
 				<hr class="my-2" />
 
 				<Button
@@ -59,7 +59,13 @@
 						open = false;
 					}}>Login</Button
 				>
-			{/if}
+			{/if} -->
+			<Button
+				href="/login"
+				onclick={() => {
+					open = false;
+				}}>Login</Button
+			>
 		</div>
 	</Sheet.Content>
 </Sheet.Root>
