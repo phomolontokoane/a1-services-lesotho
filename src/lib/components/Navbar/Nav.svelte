@@ -3,6 +3,7 @@
 	import { store } from '$lib/stores/store';
 	import Cart from './Cart.svelte';
 	import Menu from './Menu.svelte';
+	import Messages from './Messages.svelte';
 
 	let homeLink = $state('/');
 	if (page.url.pathname.includes('admin')) homeLink = '/admin';
@@ -20,5 +21,9 @@
 			<a href={`/store/${$store.owners}`}>{$store.name}</a>
 		{/if}
 	</div>
-	<Cart />
+
+	<div class={`flex items-center gap-4 ${page.url.pathname.includes('admin') ? 'hidden' : ''}`}>
+		<Cart />
+		<Messages />
+	</div>
 </nav>

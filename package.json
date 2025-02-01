@@ -20,7 +20,7 @@
 		"@sveltejs/vite-plugin-svelte": "^4.0.0",
 		"@types/bcrypt": "^5.0.2",
 		"autoprefixer": "^10.4.20",
-		"bits-ui": "^1.0.0-next.80",
+		"bits-ui": "^1.0.0-next.84",
 		"clsx": "^2.1.1",
 		"eslint": "^9.7.0",
 		"eslint-config-prettier": "^9.1.0",

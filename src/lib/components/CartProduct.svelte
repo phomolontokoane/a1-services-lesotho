@@ -22,9 +22,9 @@
 	};
 </script>
 
-<div class="flex items-center justify-between gap-3">
+<div class="grid grid-cols-4 items-center justify-items-start gap-3">
 	<Button size="icon" class="rounded" onclick={() => removeCartItem(item.id)}><X /></Button>
-	<img class="aspect-square w-1/3 object-cover object-center" src={item.img[0]} alt="product" />
+	<img class="aspect-square object-cover object-center" src={item.img[0]} alt="product" />
 	<select bind:value={qty} onchange={handleChange}>
 		{#each { length: item.avaliableQty }, num}
 			<option value={num + 1}>{num + 1}</option>

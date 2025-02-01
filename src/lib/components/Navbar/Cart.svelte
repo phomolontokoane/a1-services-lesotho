@@ -1,6 +1,7 @@
 <script lang="ts">
 	import * as Dialog from '$lib/components/ui/dialog/index.js';
 	import * as Drawer from '$lib/components/ui/drawer/index.js';
+	import { ScrollArea } from '$lib/components/ui/scroll-area';
 	import { cart, clearStore, removeCartItem } from '$lib/stores/cart';
 	import { ShoppingCart, X } from 'lucide-svelte';
 	import { Button } from '../ui/button';
@@ -34,22 +35,21 @@
 			</Dialog.Header>
 
 			<div class="flex flex-col gap-3">
-				{#each $storeCart as c}
-					<div class="flex items-center justify-between gap-3">
-						<Button size="icon" class="rounded" onclick={() => handleRemove(c.id)}><X /></Button>
-						<img
-							class="aspect-square w-1/3 object-cover object-center"
-							src={c.img[0]}
-							alt="product"
-						/>
-						<div>
-							<p>{c.name}</p>
-							<p>R {c.price}</p>
+				<ScrollArea class="h-[40vh]">
+					{#each $storeCart as c}
+						<div class="grid grid-cols-3 items-center justify-items-center gap-3">
+							<Button size="icon" class="rounded" onclick={() => handleRemove(c.id)}><X /></Button>
+							<img class="aspect-square object-cover object-center" src={c.img[0]} alt="product" />
+							<div>
+								<p>{c.name}</p>
+								<p>R {c.price}</p>
+							</div>
 						</div>
-					</div>
-				{:else}
-					<h3>No Items</h3>
-				{/each}
+						<hr class="my-2" />
+					{:else}
+						<h3>No Items</h3>
+					{/each}
+				</ScrollArea>
 				<div class="mb-10 mt-7 flex justify-between gap-3">
 					<Button
 						variant="destructive"
@@ -78,22 +78,21 @@
 			</Drawer.Header>
 
 			<div class="flex flex-col gap-3 p-3">
-				{#each $storeCart as c}
-					<div class="flex items-center justify-between gap-3">
-						<Button size="icon" class="rounded" onclick={() => handleRemove(c.id)}><X /></Button>
-						<img
-							class="aspect-square w-1/3 object-cover object-center"
-							src={c.img[0]}
-							alt="product"
-						/>
-						<div>
-							<p>{c.name}</p>
-							<p>R {c.price}</p>
+				<ScrollArea class="h-[40vh]">
+					{#each $storeCart as c}
+						<div class="grid grid-cols-3 items-center justify-items-center gap-3">
+							<Button size="icon" class="rounded" onclick={() => handleRemove(c.id)}><X /></Button>
+							<img class="aspect-square object-cover object-center" src={c.img[0]} alt="product" />
+							<div>
+								<p>{c.name}</p>
+								<p>R {c.price}</p>
+							</div>
 						</div>
-					</div>
-				{:else}
-					<h3>No Items</h3>
-				{/each}
+						<hr class="my-2" />
+					{:else}
+						<h3>No Items</h3>
+					{/each}
+				</ScrollArea>
 				<div class="mb-10 mt-7 flex justify-between gap-3">
 					<Button
 						variant="destructive"

@@ -3,7 +3,6 @@
 	import { Menu } from 'lucide-svelte';
 	import { Button } from '../ui/button';
 	import { page } from '$app/state';
-	import { user } from '$lib/stores/user';
 
 	let open = $state(false);
 </script>

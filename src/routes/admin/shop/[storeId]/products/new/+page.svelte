@@ -42,18 +42,16 @@
 				});
 
 			if (error) {
-				console.log(error);
+				console.error(error);
 				toast.error('Failed to upload file');
 				return;
 			}
-
-			console.log(data);
 
 			imgPath = `${PUBLIC_SUPABASE_URL}/storage/v1/object/public/images/products/${file.name}`;
 			notsubmit = false;
 			toast.success('Uploaded file');
 		} catch (error) {
-			console.log(error);
+			console.error(error);
 			toast.error('Failed to upload file');
 		} finally {
 			loading = false;
