@@ -14,6 +14,13 @@
 	};
 
 	let doneOrders = $state<Orders[]>([]);
+	let numDone = $derived.by(() => {
+		let sum = 0;
+		for (const order of doneOrders) {
+			if (order.isdone) ++sum;
+		}
+		return sum;
+	});
 
 	const handleNotifications = async (id: number) => {
 		const { data, error } = await supabase
@@ -39,11 +46,13 @@
 						filter: `user_id=eq.${u.id}`
 					},
 					(payload) => {
-						console.log(payload);
 						const { old, new: New, eventType } = payload;
 						if (eventType == 'UPDATE') {
 							const { id, price, isdone, delivered } = New;
-							if (delivered) return;
+							if (delivered) {
+								const values = doneOrders.filter((v) => v.id != old.id);
+								doneOrders = values;
+							}
 							const values = doneOrders.filter((v) => v.id != old.id);
 							doneOrders = [...values, { id, price, isdone }];
 						} else if (eventType == 'INSERT') {
@@ -63,7 +72,12 @@
 </script>
 
 <Sheet.Root>
-	<Sheet.Trigger class={{ hidden: page.url.pathname.includes('admin') }}><Bell /></Sheet.Trigger>
+	<Sheet.Trigger class={`relative ${page.url.pathname.includes('admin') ? 'hidden' : ''}`}>
+		<Bell />
+		{#if numDone > 0}
+			<div class="absolute left-4 top-4 rounded-full bg-red-700 px-1 text-xs">{numDone}</div>
+		{/if}
+	</Sheet.Trigger>
 	<Sheet.Content>
 		<Sheet.Header>
 			<Sheet.Title>Notification</Sheet.Title>
