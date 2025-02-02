@@ -2,9 +2,51 @@
 	import type { PageData } from './$types';
 	import * as Table from '$lib/components/ui/table/index.js';
 	import { Button } from '$lib/components/ui/button';
+	import { supabase } from '$lib';
+	import type { Json } from '$lib/types/supabase';
+	import { onDestroy } from 'svelte';
+
+	type OrderT = {
+		created_at: string | null;
+		delivered: boolean | null;
+		id: number;
+		isdone: boolean | null;
+		owners: string;
+		price: number;
+		products: Json;
+		user_id: number;
+		User: {
+			phone_number: number;
+		};
+	};
 
 	let { data }: { data: PageData } = $props();
-	let { orders, storeId } = data;
+	let { orders: Orders, storeId } = data;
+	let orders = $state(Orders);
+
+	const channels = supabase
+		.channel('custom-all-channel')
+		.on('postgres_changes', { event: '*', schema: 'public', table: 'Orders' }, (payload) => {
+			const { eventType } = payload;
+			if (eventType == 'UPDATE') {
+				const change = payload.new as OrderT;
+				const { id } = change;
+				const values = orders.filter((o) => o.id != id);
+				orders = [change, ...values];
+			} else if (eventType == 'INSERT') {
+				const change = payload.new as OrderT;
+				const { id } = change;
+				orders = [change, ...orders];
+			} else if (eventType == 'DELETE') {
+				const id = payload.old.id;
+				orders = orders.filter((o) => o.id != id);
+			}
+		})
+		.subscribe();
+
+	onDestroy(() => {
+		channels.unsubscribe();
+	});
 </script>
 
 <Table.Root>
