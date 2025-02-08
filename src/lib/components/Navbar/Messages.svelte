@@ -6,6 +6,9 @@
 	import { Bell } from 'lucide-svelte';
 	import { supabase } from '$lib';
 	import { page } from '$app/state';
+	import { browser } from '$app/environment';
+	import { toast } from 'svelte-sonner';
+	import { onMount } from 'svelte';
 
 	type Orders = {
 		id: number;
@@ -22,6 +25,26 @@
 		return sum;
 	});
 
+	let showNotification = (id: number) => {
+		const options = {
+			body: `Your order is ready to be collected`,
+			icon: 'https://a1-services-lesotho.vercel.app/favicon.png', // Replace with your icon URL
+			vibrate: [200, 100, 200] // Vibration pattern for phones
+		};
+
+		new Notification(`Come collect Order#${id} 😊👌`, options);
+	};
+
+	$effect(() => {
+		if (browser) {
+			if (Notification.permission === 'granted') {
+				doneOrders.forEach((o) => {
+					if (o.isdone) showNotification(o.id);
+				});
+			}
+		}
+	});
+
 	const handleNotifications = async (id: number) => {
 		const { data, error } = await supabase
 			.from('Orders')
@@ -32,6 +55,24 @@
 		const orders = data ?? [];
 		doneOrders = orders;
 	};
+
+	const requestShowNotifications = async () => {
+		if (browser) {
+			if (Notification.permission == 'granted') toast('Permission already');
+			const req = await Notification.requestPermission();
+			if (req == 'granted') {
+				toast.success('We will notify when orders are done');
+			} else if (req == 'denied') {
+				toast.error('Please Allow to show done orders');
+			}
+		}
+	};
+
+	onMount(() => {
+		if (browser && Notification.permission != 'granted') {
+			requestShowNotifications();
+		}
+	});
 
 	user.subscribe((u) => {
 		if (u.id != -1) {
@@ -55,6 +96,7 @@
 							}
 							const values = doneOrders.filter((v) => v.id != old.id);
 							doneOrders = [...values, { id, price, isdone }];
+							if (isdone && !delivered) showNotification(id);
 						} else if (eventType == 'INSERT') {
 							const { id, price, isdone, delivered } = New;
 							if (delivered) return;
@@ -82,6 +124,10 @@
 		<Sheet.Header>
 			<Sheet.Title>Notification</Sheet.Title>
 			<Sheet.Description>You will get a notification when your orders are done</Sheet.Description>
+			<!-- <Button onclick={() => showNotification(0)}>Show Notification</Button> -->
+			{#if Notification.permission != 'granted'}
+				<Button onclick={requestShowNotifications}>Show Notification</Button>
+			{/if}
 			{#if $user.id != -1}
 				<Table.Root>
 					<Table.Caption>A list of your recent orders.</Table.Caption>
