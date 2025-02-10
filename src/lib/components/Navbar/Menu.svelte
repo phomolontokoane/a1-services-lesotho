@@ -38,7 +38,7 @@
 				}}>Home</a
 			>
 			<hr class="my-2" />
-			{#if User}
+			{#if User && User.id != -1}
 				<a
 					href="/account"
 					onclick={() => {

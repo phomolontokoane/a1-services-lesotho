@@ -9,6 +9,6 @@
 <h2 class="text-lg">Hello {account.first_name} {account.last_name}</h2>
 
 <section class="my-3 space-y-3">
-	<Button class="rounded">Change Password</Button>
-	<Button class="rounded">View Pending Orders</Button>
+	<!-- <Button class="rounded">Change Password</Button> -->
+	<Button class="rounded" href="/account/orders">View Pending Orders</Button>
 </section>
