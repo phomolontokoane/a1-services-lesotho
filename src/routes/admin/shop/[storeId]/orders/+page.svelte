@@ -11,6 +11,7 @@
 		delivered: boolean | null;
 		id: number;
 		isdone: boolean | null;
+		is_payed: boolean | null;
 		owners: string;
 		price: number;
 		products: Json;

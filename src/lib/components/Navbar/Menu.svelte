@@ -3,8 +3,20 @@
 	import { Menu } from 'lucide-svelte';
 	import { Button } from '../ui/button';
 	import { page } from '$app/state';
+	import { user } from '$lib/stores/user';
 
 	let open = $state(false);
+	let User = $state<{
+		id: number;
+		name: string;
+		phone_number: string;
+	}>();
+
+	user.subscribe((u) => {
+		if (u.id != -1) {
+			User = u;
+		}
+	});
 </script>
 
 <Sheet.Root bind:open>
@@ -13,16 +25,7 @@
 	>
 		<Menu />
 	</Sheet.Trigger>
-	<Sheet.Content
-		side="left"
-		onCloseAutoFocus={(e) => {
-			// these functions stops some weird behavoir after closing
-			e.preventDefault();
-		}}
-		onOpenAutoFocus={(e) => {
-			e.preventDefault();
-		}}
-	>
+	<Sheet.Content side="left">
 		<Sheet.Header>
 			<Sheet.Title>Navigation</Sheet.Title>
 		</Sheet.Header>
@@ -35,14 +38,13 @@
 				}}>Home</a
 			>
 			<hr class="my-2" />
-			<!-- <a
-				href="/account"
-				onclick={() => {
-					open = false;
-				}}>Account</a
-			> -->
-			<!-- <hr class="my-2" />
-			 {#if $user}
+			{#if User}
+				<a
+					href="/account"
+					onclick={() => {
+						open = false;
+					}}>Account</a
+				>
 				<hr class="my-2" />
 
 				<Button
@@ -58,13 +60,7 @@
 						open = false;
 					}}>Login</Button
 				>
-			{/if} -->
-			<Button
-				href="/login"
-				onclick={() => {
-					open = false;
-				}}>Login</Button
-			>
+			{/if}
 		</div>
 	</Sheet.Content>
 </Sheet.Root>

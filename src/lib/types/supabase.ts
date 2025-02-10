@@ -81,6 +81,7 @@ export type Database = {
           created_at: string | null
           delivered: boolean | null
           id: number
+          is_payed: boolean | null
           isdone: boolean | null
           owners: string
           price: number
@@ -91,6 +92,7 @@ export type Database = {
           created_at?: string | null
           delivered?: boolean | null
           id?: never
+          is_payed?: boolean | null
           isdone?: boolean | null
           owners: string
           price: number
@@ -101,6 +103,7 @@ export type Database = {
           created_at?: string | null
           delivered?: boolean | null
           id?: never
+          is_payed?: boolean | null
           isdone?: boolean | null
           owners?: string
           price?: number
@@ -109,7 +112,7 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "Orders_owners_fkey1"
+            foreignKeyName: "Orders_owners_fkey"
             columns: ["owners"]
             isOneToOne: false
             referencedRelation: "Store"

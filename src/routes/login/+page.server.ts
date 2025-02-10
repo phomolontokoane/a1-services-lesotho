@@ -43,7 +43,8 @@ export const actions: Actions = {
 						path: '/',
 						httpOnly: true,
 						secure: true,
-						sameSite: 'strict'
+						sameSite: 'strict',
+						maxAge: 86400
 					});
 					return { success: true, store };
 				} else {
