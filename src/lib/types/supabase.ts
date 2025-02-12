@@ -84,6 +84,8 @@ export type Database = {
           is_payed: boolean | null
           isdone: boolean | null
           owners: string
+          pay_method: Database["public"]["Enums"]["PayType"] | null
+          pay_refrence: string | null
           price: number
           products: Json
           user_id: number
@@ -95,6 +97,8 @@ export type Database = {
           is_payed?: boolean | null
           isdone?: boolean | null
           owners: string
+          pay_method?: Database["public"]["Enums"]["PayType"] | null
+          pay_refrence?: string | null
           price: number
           products: Json
           user_id: number
@@ -106,6 +110,8 @@ export type Database = {
           is_payed?: boolean | null
           isdone?: boolean | null
           owners?: string
+          pay_method?: Database["public"]["Enums"]["PayType"] | null
+          pay_refrence?: string | null
           price?: number
           products?: Json
           user_id?: number
@@ -172,24 +178,36 @@ export type Database = {
         Row: {
           contacts: string
           created_at: string
+          ecocash_merchant_id: number | null
+          ecocash_name: string | null
           id: number
           image: string | null
+          mpesa_merchant_id: number | null
+          mpesa_name: string | null
           name: string
           owners: string
         }
         Insert: {
           contacts: string
           created_at?: string
+          ecocash_merchant_id?: number | null
+          ecocash_name?: string | null
           id?: number
           image?: string | null
+          mpesa_merchant_id?: number | null
+          mpesa_name?: string | null
           name: string
           owners: string
         }
         Update: {
           contacts?: string
           created_at?: string
+          ecocash_merchant_id?: number | null
+          ecocash_name?: string | null
           id?: number
           image?: string | null
+          mpesa_merchant_id?: number | null
+          mpesa_name?: string | null
           name?: string
           owners?: string
         }
@@ -245,7 +263,7 @@ export type Database = {
       }
     }
     Enums: {
-      [_ in never]: never
+      PayType: "Mpesa" | "Ecocash"
     }
     CompositeTypes: {
       [_ in never]: never
