@@ -21,7 +21,7 @@
 
 <Sheet.Root bind:open>
 	<Sheet.Trigger
-		class={`lg:hidden ${page.url.pathname.includes('store') || page.url.pathname == '/' ? '' : 'hidden'}`}
+		class={`lg:hidden ${page.url.pathname.includes('admin') ? 'hidden' : ''}`}
 	>
 		<Menu />
 	</Sheet.Trigger>

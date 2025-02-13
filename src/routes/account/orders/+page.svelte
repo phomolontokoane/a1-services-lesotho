@@ -10,7 +10,7 @@
 <h2>Orders</h2>
 
 <Table.Root>
-	<Table.Caption>A list of your recent invoices.</Table.Caption>
+	<Table.Caption>A list of your recent orders.</Table.Caption>
 	<Table.Header>
 		<Table.Row>
 			<Table.Head class="w-[100px]">ID</Table.Head>

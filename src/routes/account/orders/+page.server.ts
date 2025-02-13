@@ -8,7 +8,7 @@ export const load = (async ({ parent }) => {
 	const { data, error: err } = await supabase
 		.from('Orders')
 		.select('*')
-		.eq('id', userId)
+		.eq('user_id', userId)
 		.neq('delivered', true);
 	if (err) {
 		console.error('Error in /acount/orders: ', err);
