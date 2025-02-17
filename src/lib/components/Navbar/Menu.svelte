@@ -20,9 +20,7 @@
 </script>
 
 <Sheet.Root bind:open>
-	<Sheet.Trigger
-		class={`lg:hidden ${page.url.pathname.includes('admin') ? 'hidden' : ''}`}
-	>
+	<Sheet.Trigger class={`lg:hidden ${page.url.pathname.includes('admin') ? 'hidden' : ''}`}>
 		<Menu />
 	</Sheet.Trigger>
 	<Sheet.Content side="left">
@@ -54,12 +52,22 @@
 					}}>Log Out</Button
 				>
 			{:else}
-				<Button
-					href="/login"
-					onclick={() => {
-						open = false;
-					}}>Login</Button
-				>
+				<div class="flex gap-3">
+					<Button
+						class="grow"
+						href="/signin"
+						onclick={() => {
+							open = false;
+						}}>Sign Up</Button
+					>
+					<Button
+						class="grow"
+						href="/login"
+						onclick={() => {
+							open = false;
+						}}>Login</Button
+					>
+				</div>
 			{/if}
 		</div>
 	</Sheet.Content>

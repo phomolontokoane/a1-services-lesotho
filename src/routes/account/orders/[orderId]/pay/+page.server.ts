@@ -81,6 +81,7 @@ export const actions: Actions = {
 	},
 	payMpesa: async ({ request }) => {
 		const formdata = await request.formData();
+		console.debug("Formdata", formdata)
 
 		const phone_number = formdata.get('phone_number');
 		const merchantName = formdata.get('mpesa_name');
@@ -105,35 +106,48 @@ export const actions: Actions = {
 		});
 
 		const headers = new Headers();
-		headers.set('Authorization', 'Bearer ' + PAYLESOTHO_KEY);
+		const auth = `Bearer $10$KLstBWXvvqvOc91kSNUSs.Y9z2q3XFSHYcvHMLWab4ArDzbXB5tl2`
+		console.debug("Token", PAYLESOTHO_KEY)
+		headers.set('Authorization', auth);
 
 		const options: RequestInit = { method: 'POST', body, headers };
-		const response = await fetch(PAY_MPESA_URL, options);
+		
+		console.debug("Options for request", options)
+		console.debug("Paylesotho url", PAY_MPESA_URL)
 
-		const data = await response.json();
-
-		if (data.status == 400 || !response.ok) {
-			console.error('Error in action payEconent: ', data.message);
-			return fail(400, { success: false, error: data.message as string });
+		try {
+			const response = await fetch(PAY_MPESA_URL, options);
+			console.debug("Response", response)
+			const data = await response.json();
+			const text = await response.text();
+			console.debug("Response Body: ",text)
+	
+			if (data.status == 400 || !response.ok) {
+				console.error('Error in action payEconent: ', data.message);
+				return fail(400, { success: false, error: data.message as string });
+			}
+	
+			if (!data.reference) {
+				return fail(500, { success: false, error: 'No reference' });
+			}
+	
+			const { error } = await supabase
+				.from('Orders')
+				.update({ pay_refrence: data.pay_refrence as string, pay_method: 'Mpesa' })
+				.eq('id', +orderId);
+	
+			if (error) {
+				console.error('Error in action payeconent', error);
+				fail(500, {
+					success: false,
+					error: 'Error in updating payRefreance, if payment was successfull show phone proof'
+				});
+			}
+	
+			return { success: true, refreance: data.refreance as string };
+		} catch (error) {
+			console.error("Error in payMpesa function", error)
+			return fail(500, {success: false, error: "Somthing went wrong"})
 		}
-
-		if (!data.reference) {
-			return fail(500, { success: false, error: 'No reference' });
-		}
-
-		const { error } = await supabase
-			.from('Orders')
-			.update({ pay_refrence: data.pay_refrence as string, pay_method: 'Mpesa' })
-			.eq('id', +orderId);
-
-		if (error) {
-			console.error('Error in action payeconent', error);
-			fail(500, {
-				success: false,
-				error: 'Error in updating payRefreance, if payment was successfull show phone proof'
-			});
-		}
-
-		return { success: true, refreance: data.refreance as string };
 	}
 };

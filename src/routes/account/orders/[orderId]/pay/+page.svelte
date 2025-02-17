@@ -41,15 +41,13 @@
 			<h1 class="text-2xl">Paying for Order #{order.id} - R {order.price.toPrecision(3)}</h1>
 			<p class="text-xs my-1">Enter details below</p>
 		</div>
-		<form action="?/pay" method="POST">
+		<form action="?/payEconet" method="POST">
 			<Label for="phone_number">Phone Number (+266)</Label>
 			<Input
 				id="phone_number"
 				type="tel"
-				maxlength={8}
-				minlength={8}
 				placeholder={'Example: 54545454'}
-				name="phone-number"
+				name="phone_number"
 				bind:value={phone_number}
 				required
 			/>
@@ -70,15 +68,15 @@
 			<!-- Submit -->
 			<div class="my-4">
 				{#if Ecocash && merchant == 'Ecocash'}
-					<Button class="w-full rounded" formaction="?/payEconet">Pay Ecocash</Button>
+					<Button class="w-full rounded" formaction="?/payEconet" type="submit">Pay Ecocash</Button>
 				{:else if Mpesa && merchant == 'Mpesa'}
-					<Button class="w-full rounded" formaction="?/payMpesa">Pay Mpesa</Button>	
+					<Button class="w-full rounded" formaction="?/payMpesa" type="submit">Pay Mpesa</Button>	
 				{/if}
 			</div>
 
 			<!-- Errors -->
 			{#if form?.error}
-				<p>{form.error}</p>
+				<p class="text-sm text-red-600">Error: {form.error}</p>
 			{/if}
 		</form>
 	</section>

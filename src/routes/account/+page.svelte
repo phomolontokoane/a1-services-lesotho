@@ -10,5 +10,6 @@
 
 <section class="my-3 space-y-3">
 	<!-- <Button class="rounded">Change Password</Button> -->
-	<Button class="rounded w-full text-md" href="/account/orders">View Pending Orders</Button>
+	<Button class="rounded w-full text-md" href="/account/orders">Pending Orders</Button>
+	<Button class="rounded w-full text-md" href="/account/subscription">Subscription</Button>
 </section>
