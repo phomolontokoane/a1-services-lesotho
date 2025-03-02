@@ -1,7 +1,7 @@
 import { supabase } from '$lib';
 import { error } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
-import { PAYLESOTHO_KEY, VERIFY_ECOCASH, VERIFY_MPESA } from '$env/static/private';
+import { PAY_LESOTHO_KEY, VERIFY_ECOCASH, VERIFY_MPESA } from '$env/static/private';
 
 export const load = (async ({ params }) => {
 	const { data: order, error: err } = await supabase
@@ -19,7 +19,7 @@ export const load = (async ({ params }) => {
 
 	if (order.is_payed != true && order.pay_refrence) {
 		const headers = new Headers()
-		headers.set("Authorization", "Bearer " + PAYLESOTHO_KEY)
+		headers.set("Authorization", "Bearer " + PAY_LESOTHO_KEY)
 
 		let isPayed = false;
 		if (order.pay_method == "Ecocash") {

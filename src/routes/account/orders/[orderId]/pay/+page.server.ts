@@ -1,5 +1,5 @@
 import type { Actions, PageServerLoad } from './$types';
-import { PAYLESOTHO_KEY, PAY_ECOCASH_URL, PAY_MPESA_URL } from '$env/static/private';
+import { PAY_LESOTHO_KEY, PAY_ECOCASH_URL, PAY_MPESA_URL } from '$env/static/private';
 import { supabase } from '$lib';
 import { error, fail } from '@sveltejs/kit';
 
@@ -48,7 +48,7 @@ export const actions: Actions = {
 		});
 
 		const headers = new Headers();
-		headers.set('Authorization', 'Bearer ' + PAYLESOTHO_KEY);
+		headers.set('Authorization', 'Bearer ' + PAY_LESOTHO_KEY);
 
 		const options: RequestInit = { method: 'POST', body, headers };
 		const response = await fetch(PAY_ECOCASH_URL, options);
@@ -107,7 +107,7 @@ export const actions: Actions = {
 
 		const headers = new Headers();
 		const auth = `Bearer $10$KLstBWXvvqvOc91kSNUSs.Y9z2q3XFSHYcvHMLWab4ArDzbXB5tl2`
-		console.debug("Token", PAYLESOTHO_KEY)
+		console.debug("Token", PAY_LESOTHO_KEY)
 		headers.set('Authorization', auth);
 
 		const options: RequestInit = { method: 'POST', body, headers };
