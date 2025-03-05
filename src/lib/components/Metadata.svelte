@@ -26,7 +26,7 @@
 
 	<!-- Meta Tags Generated with https://metatags.io -->
 	<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-	<script>
+	<!-- <script>
 		window.OneSignalDeferred = window.OneSignalDeferred || [];
 		OneSignalDeferred.push(async function (OneSignal) {
 			await OneSignal.init({
@@ -38,5 +38,5 @@
 				allowLocalhostAsSecureOrigin: true
 			});
 		});
-	</script>
+	</script> -->
 </svelte:head>

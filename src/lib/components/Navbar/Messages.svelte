@@ -35,15 +35,15 @@
 		new Notification(`Come collect Order#${id} 😊👌`, options);
 	};
 
-	// $effect(() => {
-	// 	if (browser) {
-	// 		if (Notification.permission === 'granted') {
-	// 			doneOrders.forEach((o) => {
-	// 				if (o.isdone) showNotification(o.id);
-	// 			});
-	// 		}
-	// 	}
-	// });
+	$effect(() => {
+		if (browser) {
+			if (Notification.permission === 'granted') {
+				doneOrders.forEach((o) => {
+					if (o.isdone) showNotification(o.id);
+				});
+			}
+		}
+	});
 
 	const handleNotifications = async (id: number) => {
 		const { data, error } = await supabase
@@ -68,11 +68,11 @@
 		}
 	};
 
-	// onMount(() => {
-	// 	if (browser && Notification.permission != 'granted') {
-	// 		requestShowNotifications();
-	// 	}
-	// });
+	onMount(() => {
+		if (browser && Notification.permission != 'granted') {
+			requestShowNotifications();
+		}
+	});
 
 	user.subscribe((u) => {
 		if (u.id != -1) {
@@ -124,10 +124,10 @@
 		<Sheet.Header>
 			<Sheet.Title>Notification</Sheet.Title>
 			<Sheet.Description>You will get a notification when your orders are done</Sheet.Description>
-			<!-- <Button onclick={() => showNotification(0)}>Show Notification</Button> -->
-			<!-- {#if Notification.permission != 'granted'}
-				<Button onclick={requestShowNotifications}>Show Notification</Button>
-			{/if} -->
+			<Button onclick={() => showNotification(0)}>Show Notification</Button>
+			{#if Notification.permission != 'granted'}
+				<Button onclick={requestShowNotifications}>Allow Notification</Button>
+			{/if}
 			{#if $user.id != -1}
 				<Table.Root>
 					<Table.Caption>A list of your recent orders.</Table.Caption>
