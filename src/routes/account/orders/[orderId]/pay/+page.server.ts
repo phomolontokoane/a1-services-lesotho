@@ -117,7 +117,14 @@ export const actions: Actions = {
 		console.log("🚀 ~ payMpesa: ~ apiUrl:", apiUrl)
 		try {
 			const response = await fetch(apiUrl, options);
-			// console.debug("Response", response)
+			console.debug("Response", response)
+
+			if (response.headers.get('Content-Type')?.includes('application/json') !== true) {
+				const mpesaTextData = await response.text();
+				console.debug('🚀 ~ mpesaTextData:', mpesaTextData);
+				return fail(500, { success: false, error: 'Response not in json' });
+			}
+			
 			const data = await response.json();
 	
 			if (data.status == 400 || !response.ok) {
