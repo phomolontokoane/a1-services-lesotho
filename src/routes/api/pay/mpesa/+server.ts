@@ -1,80 +1,62 @@
 import { json, text } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import { PAY_MPESA_URL, PAY_LESOTHO_KEY } from '$env/static/private';
-
-type PostData = {
-	phone_number: string;
-	merchantName: string;
-	merchantId: string;
-	price: string;
-	orderId: string;
-};
+import type { buyPostData } from '$lib/types';
 
 export const GET: RequestHandler = async () => {
-	return text('Hello from /api/mpesa/pay');
+	return json({ message: 'Hello from /api/mpesa/pay' });
 };
 
 export const POST: RequestHandler = async ({ request }) => {
 	try {
-		const data: Partial<PostData> = await request.json();
-		const { phone_number, merchantName, price, orderId, merchantId } = data;
+		const data: Partial<buyPostData> = await request.json();
+		console.log("🚀 ~ constPOST:RequestHandler= ~ data:", data)
+		const { phone_number, merchantName, price, reference, merchantId } = data;
 
-		const dataMising =
-			!phone_number || !merchantName || !price || !orderId || !merchantId;
+		const dataMising = !phone_number || !merchantName || !price || !reference || !merchantId;
 		if (dataMising) {
-			return text('One of the values is missing', {
-				status: 400,
-				statusText: 'One of the values is missing'
-			});
+			return json(
+				{ message: 'One of the values is missing' },
+				{
+					status: 400,
+					statusText: 'One of the values is missing'
+				}
+			);
 		}
 		const notFormat = isNaN(+phone_number) || isNaN(+price) || isNaN(+merchantId);
 		if (notFormat) {
-			return text('One of the values is not in the right format', {
-				status: 400,
-				statusText: 'One of the values is not in the right format'
-			});
+			return json(
+				{ message: 'One of the values is not in the right format' },
+				{
+					status: 400,
+					statusText: 'One of the values is not in the right format'
+				}
+			);
 		}
-
-		const headers = new Headers();
-		headers.append('Authorization', `Bearer: $10$${PAY_LESOTHO_KEY}`);
-		headers.append('Content-Type', 'application/json');
+		const myHeaders = new Headers();
+		myHeaders.append('Authorization', `Bearer $10$${PAY_LESOTHO_KEY}`);
+		myHeaders.append('Content-Type', 'application/json');
 
 		const raw = JSON.stringify({
 			merchantid: merchantId,
 			amount: price,
 			mobileNumber: phone_number,
 			merchantname: merchantName,
-			client_reference: `Payment for order #${orderId}`
+			client_reference: reference
 		});
 
-		const response = await fetch(PAY_MPESA_URL, {
+		const requestOptions = {
 			method: 'POST',
-			headers: headers,
-			body: raw,
-			redirect: 'follow'
-		});
+			headers: myHeaders,
+			body: raw
+		};
 
-		if (!response.ok) {
-			console.error('Response not ok in /api/pay/mpesa: ', response);
-			return text('Response Bad', { status: 500, statusText: 'Response Bad' });
-		}
-
-		const info: {
-			status_code: string;
-			message: string;
-			reference?: string;
-		} = await response.json();
-
-		if (info.status_code == 'INS-0' && info.reference) {
-			return json({ reference: info.reference });
-		} else {
-			return json(info, { statusText: 'Payment not successfull', status: 400 });
-		}
+		const url = PAY_MPESA_URL;
+		const response = await fetch(url, requestOptions);
+		const info = await response.json();
+		return json(info);
 	} catch (error) {
-		console.error('Error in /api/pay/mpesa: ', error);
-		return text('Something went wrong.', {
-			status: 500,
-			statusText: 'Something went wrong.'
-		});
+		console.error('Error in /api/mpesa/pay', error);
+		return json({ message: 'something went wrong', error }, { status: 500 });
 	}
 };

@@ -21,3 +21,11 @@ export type Store = {
 	name: string;
 	owners: string;
 };
+
+export type buyPostData = {
+	phone_number: string;
+	merchantName: string;
+	merchantId: string;
+	price: string;
+	reference: string;
+};

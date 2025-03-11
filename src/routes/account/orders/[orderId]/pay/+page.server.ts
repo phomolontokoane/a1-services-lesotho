@@ -2,6 +2,7 @@ import type { Actions, PageServerLoad } from './$types';
 import { PAY_LESOTHO_KEY, PAY_ECOCASH_URL, PAY_MPESA_URL } from '$env/static/private';
 import { supabase } from '$lib';
 import { error, fail } from '@sveltejs/kit';
+import type { buyPostData } from '$lib/types';
 
 export const load = (async ({ params }) => {
 	const { orderId } = params;
@@ -22,7 +23,7 @@ export const load = (async ({ params }) => {
 }) satisfies PageServerLoad;
 
 export const actions: Actions = {
-	payEconet: async ({ request }) => {
+	payEconet: async ({ request, }) => {
 		const formdata = await request.formData();
 
 		const phone_number = formdata.get('phone_number');
@@ -48,12 +49,15 @@ export const actions: Actions = {
 		});
 
 		const headers = new Headers();
-		headers.set('Authorization', 'Bearer ' + PAY_LESOTHO_KEY);
+		headers.set('Authorization', 'Bearer $10$' + PAY_LESOTHO_KEY);
 
 		const options: RequestInit = { method: 'POST', body, headers };
 		const response = await fetch(PAY_ECOCASH_URL, options);
 
+		// console.debug("Response: ", response)
+
 		const data = await response.json();
+		console.debug("Running til this point")
 
 		if (data.status == 400 || !response.ok) {
 			console.error('Error in action payEconent: ', data.message);
@@ -79,9 +83,9 @@ export const actions: Actions = {
 
 		return { success: true, refreance: data.refreance as string };
 	},
-	payMpesa: async ({ request }) => {
+	payMpesa: async ({ request, url }) => {
 		const formdata = await request.formData();
-		console.debug("Formdata", formdata)
+		// console.debug("Formdata", formdata)
 
 		const phone_number = formdata.get('phone_number');
 		const merchantName = formdata.get('mpesa_name');
@@ -97,30 +101,23 @@ export const actions: Actions = {
 			return fail(400, { success: false, error: 'Price is a negative number' });
 		}
 
-		const body = JSON.stringify({
-			merchantid: till.toString(),
-			amount: price.toString(),
-			mobileNumber: phone_number.toString(),
-			merchantname: merchantName.toString(),
-			client_reference: `Payment for order#${orderId}`
-		});
+		const body: buyPostData = {
+			merchantId: till.toString(),
+			price: price.toString(),
+			phone_number: phone_number.toString(),
+			merchantName: merchantName.toString(),
+			reference: `Payment for order#${orderId}`
+		}
+		const raw = JSON.stringify(body);
 
 		const headers = new Headers();
-		const auth = `Bearer $10$KLstBWXvvqvOc91kSNUSs.Y9z2q3XFSHYcvHMLWab4ArDzbXB5tl2`
-		console.debug("Token", PAY_LESOTHO_KEY)
-		headers.set('Authorization', auth);
-
-		const options: RequestInit = { method: 'POST', body, headers };
-		
-		console.debug("Options for request", options)
-		console.debug("Paylesotho url", PAY_MPESA_URL)
-
+		headers.set("Content-Type", "application/json");
+		const options: RequestInit = { method: 'POST', body: raw, headers };
+		const apiUrl = url.origin + "/api/pay/mpesa"
 		try {
-			const response = await fetch(PAY_MPESA_URL, options);
-			console.debug("Response", response)
+			const response = await fetch(apiUrl, options);
+			// console.debug("Response", response)
 			const data = await response.json();
-			const text = await response.text();
-			console.debug("Response Body: ",text)
 	
 			if (data.status == 400 || !response.ok) {
 				console.error('Error in action payEconent: ', data.message);

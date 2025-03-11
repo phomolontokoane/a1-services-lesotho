@@ -46,7 +46,10 @@
 		<p>
 			Please wait for your order to be prepared - you will be notified to collect it within 20mins.
 		</p>
-		<Button href="/" class="w-full rounded text-xl">Continue Shopping</Button>
+		<p>
+			Please pay for your order
+		</p>
+		<Button href={`/account/orders/${form.order?.id ?? ""}`} class="w-full rounded text-xl">Payment</Button>
 	</div>
 {:else if $storeCart.length < 1}
 	<h2>No Items</h2>

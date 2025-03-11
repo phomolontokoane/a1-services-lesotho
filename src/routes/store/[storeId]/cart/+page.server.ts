@@ -45,7 +45,8 @@ export const actions: Actions = {
 			const { data, error: order_error } = await supabase
 				.from('Orders')
 				.insert([{ price, products: Products as any, owners, user_id }])
-				.select();
+				.select()
+				.maybeSingle();
 
 			if (order_error) {
 				console.error(order_error);

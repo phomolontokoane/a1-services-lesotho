@@ -69,8 +69,8 @@
 	};
 
 	onMount(() => {
-		if (browser && Notification.permission != 'granted') {
-			requestShowNotifications();
+		if (!('Notification' in window)) {
+			toast.error('Notifications are not supported on your device.');
 		}
 	});
 
