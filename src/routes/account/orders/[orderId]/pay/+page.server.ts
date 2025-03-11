@@ -85,7 +85,7 @@ export const actions: Actions = {
 	},
 	payMpesa: async ({ request, url }) => {
 		const formdata = await request.formData();
-		// console.debug("Formdata", formdata)
+		console.debug("Formdata", formdata)
 
 		const phone_number = formdata.get('phone_number');
 		const merchantName = formdata.get('mpesa_name');
@@ -114,6 +114,7 @@ export const actions: Actions = {
 		headers.set("Content-Type", "application/json");
 		const options: RequestInit = { method: 'POST', body: raw, headers };
 		const apiUrl = url.origin + "/api/pay/mpesa"
+		console.log("🚀 ~ payMpesa: ~ apiUrl:", apiUrl)
 		try {
 			const response = await fetch(apiUrl, options);
 			// console.debug("Response", response)
