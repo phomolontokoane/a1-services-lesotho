@@ -53,7 +53,9 @@ export const POST: RequestHandler = async ({ request }) => {
 
 		const url = PAY_MPESA_URL;
 		const response = await fetch(url, requestOptions);
-		if (response.headers.get('content-type')?.includes('application/json')) {
+		console.log("🚀 ~ constPOST:RequestHandler= ~ response:", response)
+
+		if (response.headers.get('Content-Type')?.includes('application/json')) {
 			const info = await response.json();
 			return json(info);
 		} else {
