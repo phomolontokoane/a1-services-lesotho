@@ -9,6 +9,15 @@ export const GET: RequestHandler = async () => {
 
 export const POST: RequestHandler = async ({ request }) => {
 	try {
+		if (!request.body) {
+			return json({ message: 'No data provided' }, { status: 400, statusText: 'No data provided' });
+		} else if (request.headers.get('content-type')?.includes('application/json') === false) {
+			console.debug('🚀 ~ request.headers.get(content-type):', request.headers.get('content-type'));
+			const mpesaTextData = await request.text();
+			console.debug('🚀 ~ mpesaTextData:', mpesaTextData);
+			return json({ message: 'Invalid content-type' }, { status: 400, statusText: 'Invalid content-type' });
+		}
+
 		const data: Partial<buyPostData> = await request.json();
 		console.log('🚀 ~ constPOST:RequestHandler= ~ data:', data);
 		const { phone_number, merchantName, price, reference, merchantId } = data;
@@ -66,7 +75,7 @@ export const POST: RequestHandler = async ({ request }) => {
 				{ status: 500, statusText: 'Response not in json' }
 			);
 		}
-	} catch (error) {
+	} catch (error: unknown) {
 		console.error('Error in /api/mpesa/pay', error);
 		return json({ message: 'something went wrong', error }, { status: 500 });
 	}
