@@ -46,13 +46,14 @@ export const POST: RequestHandler = async ({ request }) => {
 		myHeaders.append('Authorization', `Bearer $10$${PAY_LESOTHO_KEY}`);
 		myHeaders.append('Content-Type', 'application/json');
 
-		const raw = JSON.stringify({
+		const newLocal = {
 			merchantid: merchantId,
 			amount: price,
 			mobileNumber: phone_number,
 			merchantname: merchantName,
 			client_reference: reference
-		});
+		};
+		const raw = JSON.stringify(newLocal);
 
 		const requestOptions = {
 			method: 'POST',

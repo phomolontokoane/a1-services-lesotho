@@ -29,3 +29,11 @@ export type buyPostData = {
 	price: string;
 	reference: string;
 };
+
+export type apiBuyPostData = {
+	merchantid: string;
+	amount: string;
+	mobileNumber: string;
+	merchantname: string;
+	client_reference: string;
+};
