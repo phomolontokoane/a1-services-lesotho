@@ -2,7 +2,7 @@ import type { Actions, PageServerLoad } from './$types';
 import { PAY_LESOTHO_KEY, PAY_ECOCASH_URL, PAY_MPESA_URL } from '$env/static/private';
 import { supabase } from '$lib';
 import { error, fail } from '@sveltejs/kit';
-import type { buyPostData } from '$lib/types';
+import type { apiBuyPostData, buyPostData } from '$lib/types';
 
 export const load = (async ({ params }) => {
 	const { orderId } = params;
@@ -85,7 +85,7 @@ export const actions: Actions = {
 	},
 	payMpesa: async ({ request, url }) => {
 		const formdata = await request.formData();
-		// console.debug("Formdata", formdata)
+		console.debug("Formdata", formdata)
 
 		const phone_number = formdata.get('phone_number');
 		const merchantName = formdata.get('mpesa_name');
@@ -101,22 +101,34 @@ export const actions: Actions = {
 			return fail(400, { success: false, error: 'Price is a negative number' });
 		}
 
-		const body: buyPostData = {
-			merchantId: till.toString(),
-			price: price.toString(),
-			phone_number: phone_number.toString(),
-			merchantName: merchantName.toString(),
-			reference: `Payment for order#${orderId}`
+		const body: apiBuyPostData = {
+			merchantid: till.toString(),
+			amount: price.toString(),
+			mobileNumber: phone_number.toString(),
+			merchantname: merchantName.toString(),
+			client_reference: `Payment for order#${orderId}`
 		}
 		const raw = JSON.stringify(body);
 
 		const headers = new Headers();
 		headers.set("Content-Type", "application/json");
+
+		const key = PAY_LESOTHO_KEY;
+		headers.append('Authorization', `Bearer $10$${key}`);
+
 		const options: RequestInit = { method: 'POST', body: raw, headers };
-		const apiUrl = url.origin + "/api/pay/mpesa"
+		const apiUrl = PAY_MPESA_URL;
+		
 		try {
 			const response = await fetch(apiUrl, options);
-			// console.debug("Response", response)
+			console.debug("Response", response)
+
+			if (response.headers.get('Content-Type')?.includes('application/json') !== true) {
+				const mpesaTextData = await response.text();
+				console.debug('🚀 ~ mpesaTextData:', mpesaTextData);
+				return fail(500, { success: false, error: 'Response not in json' });
+			}
+			
 			const data = await response.json();
 	
 			if (data.status == 400 || !response.ok) {
