@@ -33,6 +33,15 @@ export const actions: Actions = {
 
 			const { user } = data;
 
+			if (data.session?.access_token) {
+				cookies.set('sb_token', data.session.access_token, {
+					path: '/',
+					httpOnly: true,
+					sameSite: 'strict',
+					maxAge: 86400,
+				});
+			}
+
 			if (user) {
 				return {
 					success: true,
