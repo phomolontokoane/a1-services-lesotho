@@ -33,7 +33,7 @@
 {#if !Ecocash && !Mpesa}
 	<h1>Store does not have online payments yet</h1>
 {:else if form?.success}
-	<h1>Payed for Order #{order.id}</h1>
+	<h1>You will recieve a message in a moment</h1>
 	<Button href={`/account/orders/${order.id}`}>Go to Order</Button>
 {:else}
 	<section class="space-y-4">

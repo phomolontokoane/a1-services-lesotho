@@ -12,7 +12,9 @@
 	let { data, children }: { data: LayoutData; children: Snippet } = $props();
 	if (data.user) user.set(data.user);
 
-	onMount(() => {
+	let isSubscribed = $state(false)
+
+	onMount(async () => {
 		if (Notification.permission !== "granted") {
 			toast("Please allow notifications to receive updates", {
 				duration: 100000,
@@ -30,8 +32,71 @@
 					},
 				},
 			});
+		} else {
+			isSubscribed = await checkSubscription();
+
+			if (!isSubscribed) {
+				await subscribeUser();
+			}
 		}
 	})
+
+	async function checkSubscription() {
+		if ('serviceWorker' in navigator) {
+			const registration = await navigator.serviceWorker.ready;
+			const subscription = await registration.pushManager.getSubscription();
+			return subscription !== null;
+		}
+		return false;
+	}
+
+	async function sendSubscriptionToServer(subscription: PushSubscription) {
+		try {
+			const res = await fetch('/api/addSubscription', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({ subscription })
+			});
+			if (!res.ok)
+				throw new Error(`Error saving subscription on server: ${res.statusText} (${res.status})`);
+		} catch (error) {
+			console.error('Error saving subscription on server:', error);
+			unsubscribe();
+		}
+	}
+
+	async function subscribeUser() {
+		if ('serviceWorker' in navigator) {
+			try {
+				const response = await fetch('/api/vapidPubKey');
+				const { data } = await response.json();
+
+				const registration = await navigator.serviceWorker.ready;
+				const subscription = await registration.pushManager.subscribe({
+					userVisibleOnly: true,
+					applicationServerKey: data
+				});
+				isSubscribed = true;
+				console.log('Subscription:', JSON.stringify(subscription));
+				sendSubscriptionToServer(subscription);
+			} catch (err) {
+				console.error('Error subscribing:', err);
+			}
+		}
+	}
+
+	async function unsubscribe() {
+		if ('serviceWorker' in navigator) {
+			const registration = await navigator.serviceWorker.ready;
+			const subscription = await registration.pushManager.getSubscription();
+			if (subscription) {
+				await subscription.unsubscribe();
+				isSubscribed = false;
+			}
+		}
+	}
 </script>
 
 <Toaster />
