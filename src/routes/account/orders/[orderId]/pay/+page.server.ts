@@ -23,7 +23,7 @@ export const load = (async ({ params }) => {
 }) satisfies PageServerLoad;
 
 export const actions: Actions = {
-	payEconet: async ({ request, }) => {
+	payEconet: async ({ request }) => {
 		const formdata = await request.formData();
 
 		const phone_number = formdata.get('phone_number');
@@ -57,7 +57,7 @@ export const actions: Actions = {
 		// console.debug("Response: ", response)
 
 		const data = await response.json();
-		console.debug("Running til this point")
+		console.debug('Running til this point');
 
 		if (data.status == 400 || !response.ok) {
 			console.error('Error in action payEconent: ', data.message);
@@ -85,7 +85,7 @@ export const actions: Actions = {
 	},
 	payMpesa: async ({ request, url }) => {
 		const formdata = await request.formData();
-		console.debug("Formdata", formdata)
+		console.debug('Formdata', formdata);
 
 		const phone_number = formdata.get('phone_number');
 		const merchantName = formdata.get('mpesa_name');
@@ -107,56 +107,61 @@ export const actions: Actions = {
 			mobileNumber: phone_number.toString(),
 			merchantname: merchantName.toString(),
 			client_reference: `Payment for order#${orderId}`
-		}
+		};
 		const raw = JSON.stringify(body);
 
 		const headers = new Headers();
-		headers.set("Content-Type", "application/json");
+		headers.set('Content-Type', 'application/json');
 
 		const key = PAY_LESOTHO_KEY;
 		headers.append('Authorization', `Bearer $10$${key}`);
 
 		const options: RequestInit = { method: 'POST', body: raw, headers };
 		const apiUrl = PAY_MPESA_URL;
-		
-		try {
-			const response = await fetch(apiUrl, options);
-			console.debug("Response", response)
 
-			if (response.headers.get('Content-Type')?.includes('application/json') !== true) {
-				const mpesaTextData = await response.text();
-				console.debug('🚀 ~ mpesaTextData:', mpesaTextData);
-				return fail(500, { success: false, error: 'Response not in json' });
-			}
-			
-			const data = await response.json();
-	
-			if (data.status == 400 || !response.ok) {
-				console.error('Error in action payEconent: ', data.message);
-				return fail(400, { success: false, error: data.message as string });
-			}
-	
-			if (!data.reference) {
-				return fail(500, { success: false, error: 'No reference' });
-			}
-	
-			const { error } = await supabase
-				.from('Orders')
-				.update({ pay_refrence: data.pay_refrence as string, pay_method: 'Mpesa' })
-				.eq('id', +orderId);
-	
-			if (error) {
-				console.error('Error in action payeconent', error);
-				fail(500, {
-					success: false,
-					error: 'Error in updating payRefreance, if payment was successfull show phone proof'
-				});
-			}
-	
-			return { success: true, refreance: data.refreance as string };
+		try {
+			fetch(apiUrl, options)
+			.then(async (response) => {
+				console.debug('Response', response);
+				
+				if (response.headers.get('Content-Type')?.includes('application/json') !== true) {
+					const mpesaTextData = await response.text();
+					console.debug('🚀 ~ mpesaTextData:', mpesaTextData);
+					return fail(500, { success: false, error: 'Response not in json' });
+				}
+
+				const data = await response.json();
+
+				if (data.status == 400 || !response.ok) {
+					console.error('Error in action payEconent: ', data.message);
+					return fail(400, { success: false, error: data.message as string });
+				}
+
+				if (!data.reference) {
+					return fail(500, { success: false, error: 'No reference' });
+				}
+
+				const { error } = await supabase
+					.from('Orders')
+					.update({ pay_refrence: data.pay_refrence as string, pay_method: 'Mpesa' })
+					.eq('id', +orderId);
+
+				if (error) {
+					console.error('Error in action payeconent', error);
+					fail(500, {
+						success: false,
+						error: 'Error in updating payRefreance, if payment was successfull show phone proof'
+					});
+				}
+			})
+			.catch((error) => {
+				console.error('Error in payMpesa function', error);
+				return fail(500, { success: false, error: 'Somthing went wrong' });
+			});
+			return { success: true };
 		} catch (error) {
-			console.error("Error in payMpesa function", error)
-			return fail(500, {success: false, error: "Somthing went wrong"})
+			console.error('Error in payMpesa function', error);
+			return fail(500, { success: false, error: 'Somthing went wrong' });
 		}
 	}
 };
